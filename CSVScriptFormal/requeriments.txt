@@ -1,0 +1,5 @@
+duckdb
+requests
+pandas
+python-dotenv
+

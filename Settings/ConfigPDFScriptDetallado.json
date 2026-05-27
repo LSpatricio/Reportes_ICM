@@ -1,0 +1,11 @@
+{
+  "CONFIGURATION": {
+    "EXECUTION_MODE": "LOCAL_TEMPLATE",
+    "LOG_LEVEL": "INFO",
+    "LOCAL_TEMPLATE_CSV_PATH": "Data/CSVparaPDFDetallado.csv",
+    "LOCAL_TEMPLATE_PATH": "/root/Script/TemplatePDF/Template nuevo Finiquito Detallado sin datos.pdf",
+    "LOCAL_TEMPLATE_EMAIL_TO": "dsuazo@exsoinf.com",
+    "DISTRICT_EMAIL_TABLE": "DistrictEmailTable",
+    "LOCAL_TEMPLATE_MERGE_OUTPUT": false
+  }
+}

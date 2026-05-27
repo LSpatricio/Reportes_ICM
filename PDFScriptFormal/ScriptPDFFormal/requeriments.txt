@@ -1,0 +1,8 @@
+duckdb
+requests
+six
+pandas
+python-dotenv
+pypdf
+reportlab
+

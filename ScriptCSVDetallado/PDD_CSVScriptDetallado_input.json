@@ -1,0 +1,127 @@
+{
+  "client": "FEMCO / ICM",
+  "process_name": "CSVScriptDetallado",
+  "month_year": "Abril 2026",
+  "version": "1.0",
+  "author": "Codex",
+  "objective": "Automatizar la descarga, carga, transformacion, exportacion y notificacion del proceso detallado para generar el CSV final consumido por PDFScriptDetallado.",
+  "current_situation": "La operacion depende de un script Python que concentra la extraccion desde Varicent ICM, la carga en DuckDB, la deduplicacion funcional, la exportacion del CSV final y el envio de notificaciones. La ejecucion requiere configuracion vigente en INI, variables de entorno y disponibilidad de la API remota. Si alguno de esos elementos falla, la corrida se detiene y se registra la incidencia en el log. Ademas, el proceso conserva nombres legados como CSVFiniquitoDetallado en correos y registros.",
+  "expected_situation": "Se espera una ejecucion controlada de punta a punta, con validacion temprana de parametros opcionales, descarga remota de CatCalculation, carga y transformacion local en DuckDB, exportacion de un CSV final configurable y notificacion automatica por correo al concluir con exito o error. El resultado debe quedar listo para consumo desacoplado por PDFScriptDetallado.",
+  "scope": "El proceso comprende la extraccion de datos desde Varicent ICM, su materializacion temporal en CSV, la carga y tratamiento en DuckDB, la generacion del archivo final CSVparaPDFDetallado.csv, la creacion de tablas intermedias y la notificacion automatica por correo al terminar la corrida. Tambien incluye la limpieza de temporales y el registro de eventos operativos.",
+  "process_detail_style": "paragraphs",
+  "process_details_paragraphs": [
+    "La ejecucion inicia cuando el usuario o el programador externo lanza CSVScriptDetallado. En ese momento el proceso identifica su ruta real de ejecucion, resuelve las carpetas operativas, prepara el directorio de logs y confirma que la base DuckDB local exista y pueda abrirse en modo escritura. Esta etapa evita arrancar una corrida con una estructura incompleta o con archivos faltantes que impedirian continuar.",
+    "Posteriormente se cargan las variables de entorno y la configuracion funcional desde los archivos correspondientes. Con esa informacion el proceso construye el contexto de autenticacion para QueryTool, valida que existan las credenciales necesarias para Varicent ICM y lee los filtros opcionales de distrito, plaza y tienda. Si alguno de esos parametros existe en la configuracion, el proceso lo normaliza y lo deja listo para incrustarlo en la consulta remota sin que el usuario tenga que editar SQL manualmente.",
+    "Con el entorno preparado, el proceso construye y ejecuta la consulta remota que descarga CatCalculation.csv. La consulta se apoya en la tabla DateStringPeriods para determinar el periodo de trabajo de forma dinamica, por lo que ya no depende de un mes parametrizado en el INI. A partir de ese periodo se arman los subconjuntos auxiliares que enriquecen el resultado, y los filtros de distrito, plaza y tienda se aplican solo cuando la configuracion los informa. Si el servicio remoto responde con error o con un conjunto vacio, la corrida se interrumpe y queda la traza de soporte en el log.",
+    "Una vez recibido el archivo, este se inserta en DuckDB como la tabla base CatCalculation. Antes de continuar se valida que el archivo temporal exista y que tenga estructura utilizable; despues la tabla se recrea para evitar arrastre de ejecuciones anteriores. Sobre esa base se aplican las transformaciones locales, incluyendo la deduplicacion funcional por COMISIONID y llaves de negocio relacionadas, con el fin de conservar un registro representativo por combinacion operativa y evitar duplicados en el resultado final.",
+    "Despues de la consolidacion, el flujo crea CSVDetalladoProceso como salida principal y CSVDetalladoRetroactivo como estructura complementaria esperada por el modelo. En paralelo se calculan los conteos de registros para dejar evidencia de la cantidad procesada y validar que la informacion exportada coincide con lo preparado en memoria. Con eso se exporta el CSV final en la ruta definida por la configuracion y se deja el archivo listo para consumo desacoplado por PDFScriptDetallado, el cual utilizará esa salida como fuente para la generación de los documentos finales.",
+    "Antes de cerrar, el proceso emite la notificacion de exito por correo cuando todo termina correctamente, indicando que la tabla de salida se encuentra disponible para validacion operativa. Si ocurre cualquier error en descarga, carga, transformacion, exportacion o notificacion, la excepcion se registra, se envia un correo de falla y se mantiene evidencia en el log para soporte operativo. De esta forma el equipo puede distinguir entre fallas de conectividad, problemas de datos origen y errores de configuracion sin revisar el código fuente.",
+    "Finalmente se eliminan los CSV temporales generados durante la corrida para evitar residuos en el directorio operativo. Esta limpieza deja solo la salida formal y la trazabilidad necesaria para auditoria, soporte y reejecucion posterior. En caso de reintento, el flujo parte de una ruta limpia y reduce el riesgo de mezclar archivos de ejecuciones previas con la corrida vigente."
+  ],
+  "systems": [
+    {
+      "name": "Varicent ICM QueryTool",
+      "description": "Fuente remota de datos y motor de exportacion de consultas SQL.",
+      "url": "https://api.cloud.varicent.com/api/v1/rpc/querytool/export"
+    },
+    {
+      "name": "Varicent ICM Mail API",
+      "description": "Servicio usado para notificaciones de exito y error.",
+      "url": "https://api.cloud.varicent.com/api/v1/admin/tsapi/sendMail"
+    },
+    {
+      "name": "DuckDB local",
+      "description": "Base temporal local para cargar, transformar y exportar la informacion.",
+      "url": "root/scripts/Settings/localbd_CSVFiniquitoDetallado.duckdb"
+    },
+    {
+      "name": "ConfigScriptCSVDetallado.ini",
+      "description": "Parametrizacion funcional de correos, filtros opcionales y ruta de salida.",
+      "url": "root/scripts/Settings/ConfigScriptCSVDetallado.ini"
+    },
+    {
+      "name": ".env",
+      "description": "Variables de entorno y secretos globales del proceso.",
+      "url": "root/scripts/.env"
+    },
+    {
+      "name": "PDFScriptDetallado",
+      "description": "Proceso consumidor del CSV final generado por este flujo.",
+      "url": "Ambiente local o empaquetado, segun ejecucion"
+    }
+  ],
+  "out_of_scope": [
+    "La maquetacion o generacion de PDF final.",
+    "La correccion manual de informacion origen dentro de Varicent.",
+    "La depuracion de calidad de datos en sistemas fuente fuera del filtro operativo.",
+    "La administracion de usuarios, permisos o secretos fuera de las variables requeridas por el proceso.",
+    "La orquestacion de calendarios o schedulers externos.",
+    "La redistribucion de datos a sistemas distintos a PDFScriptDetallado.",
+    "La carga manual de CSV temporales fuera del flujo automatizado.",
+    "La modificacion de consultas SQL desde el codigo en tiempo de operacion.",
+    "La depuracion funcional de datos origen fuera de la deduplicacion automatica incluida en el script.",
+    "La conciliacion manual de diferencias entre la salida del CSV y la fuente remota.",
+    "La creacion de nuevos canales de notificacion o formatos de salida no definidos en la configuracion."
+  ],
+  "business_areas": [
+    "Compensaciones y finiquitos",
+    "Operacion comercial",
+    "Tecnologia de la informacion / Automatizacion"
+  ],
+  "business_exceptions": [
+    "El periodo configurado no devuelve registros y la salida final queda vacia.",
+    "El filtro de distritos, plazas o tiendas reduce la salida a cero filas.",
+    "La consulta remota no encuentra datos dentro del rango de periodo esperado.",
+    "El modelo fuente cambia de estructura funcional y CatCalculation deja de representar la base correcta.",
+    "La informacion remota llega incompleta para un distrito o una plaza especifica, generando un corte parcial que negocio debe revisar antes de validar resultados.",
+    "La fuente contiene movimientos fuera del periodo operativo y quedan excluidos por el filtro de fechas, lo que puede producir diferencias frente a reportes de otras fuentes."
+  ],
+  "system_exceptions": [
+    "Falta API_KEY o model en .env.",
+    "Falta ToEmail en ConfigScriptCSVDetallado.ini.",
+    "La API de Varicent responde con error HTTP, timeout o credenciales invalidas.",
+    "No se encuentra CatCalculation en la respuesta remota.",
+    "El directorio de salida no tiene permisos de escritura.",
+    "DuckDB no puede abrir la base local o excede el limite de memoria configurado.",
+    "El proceso de correo falla al intentar notificar el resultado.",
+    "El archivo ConfigScriptCSVDetallado.ini no existe, se encuentra corrupto o no contiene la seccion DEFAULT.",
+    "La descarga remota genera un CSV parcial o truncado antes de finalizar la transferencia.",
+    "La ruta temporal contiene un archivo bloqueado por otro proceso y la limpieza no puede completarse.",
+    "El script se ejecuta con una version de libreria incompatible con el entorno de ICM."
+  ],
+  "dependencies_assumptions": [
+    "La operacion depende de la disponibilidad de Varicent ICM y de sus APIs, por lo que una caida de red o una ventana de mantenimiento rompe el flujo completo.",
+    "El archivo de salida debe conservar el nombre y la ruta acordados con PDFScriptDetallado; si el consumidor cambia de carpeta o extension, la integracion se rompe hasta ajustar configuracion.",
+    "El proceso conserva referencias de nomenclatura legacy en notificaciones y logs, donde aparece CSVFiniquitoDetallado en lugar de CSVScriptDetallado, lo que puede confundir revisiones manuales si no se conoce el legado.",
+    "Se asume que el archivo ConfigScriptCSVDetallado.ini es administrado por el equipo operativo antes de cada corrida y que ToEmail siempre apunta a una bandeja activa.",
+    "Se asume que los valores de filtro en el INI son validos y compatibles con los campos del modelo origen, incluyendo formato de distrito, plaza y tienda.",
+    "Se asume que la tabla DateStringPeriods existe y contiene al menos un periodo marcado como IsOutputInterface = 'SI'; sin esa referencia no hay forma de determinar la ventana operativa.",
+    "Se asume que el volumen devuelto por QueryTool cabe en el limite de memoria definido para DuckDB y que el tiempo de ejecucion entra en la ventana operativa disponible.",
+    "Se asume que la estructura del resultado remoto mantiene la columna COMISIONID y los campos utilizados para deduplicacion y exportacion.",
+    "Se asume que no hay ejecuciones concurrentes sobre la misma base DuckDB ni sobre el mismo directorio de temporales.",
+    "Se asume que el equipo consumidor de CSVparaPDFDetallado.csv respeta el mismo contrato de nombre, ruta y codificacion del archivo.",
+    "Se asume que el antivirus o las politicas de seguridad del servidor no bloquean la creacion o eliminacion de archivos CSV temporales."
+  ],
+  "deliverable": "Archivo CSV final generado en root/Data/CSVparaPDFDetallado.csv y evidencia operativa en root/scripts/Logs/CSVFiniquitoDetallado.log.",
+  "runs_per_month": "No informado",
+  "manual_time": "No informado",
+  "frequency": "Mensual o bajo demanda operativa",
+  "change_log": [
+    {
+      "date": "22-04-2026",
+      "version": "1.0",
+      "description": "Confeccion de PDD formal para CSVScriptDetallado",
+      "author": "Codex"
+    }
+  ],
+  "operational_restrictions": [
+    "La corrida requiere variables de entorno vigentes en .env y no solicita captura interactiva de credenciales.",
+    "El archivo ConfigScriptCSVDetallado.ini debe conservar una seccion DEFAULT valida para correo, filtros y ruta de salida.",
+    "La ejecucion depende de la disponibilidad de Varicent ICM QueryTool y del servicio de notificacion por correo.",
+    "La tabla DateStringPeriods debe devolver al menos un periodo con IsOutputInterface = SI para determinar la ventana operativa.",
+    "DuckDB debe poder abrir la base local y contar con memoria suficiente para el volumen devuelto por la consulta remota.",
+    "La ruta temporal debe permitir creacion, lectura y eliminacion de CSV temporales sin bloqueo de antivirus o politicas del sistema.",
+    "El nombre de salida CSVparaPDFDetallado.csv debe mantenerse estable para no romper el consumo posterior.",
+    "No se permiten ejecuciones concurrentes sobre la misma base DuckDB ni sobre el mismo directorio temporal."
+  ]
+}

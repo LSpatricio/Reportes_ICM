@@ -1,0 +1,336 @@
+{
+  "document": {
+    "name": "Template nuevo Finiquito Formal sin datos",
+    "source_pdf": "Template nuevo Finiquito Formal sin datos.pdf",
+    "page_index": 0,
+    "units": {
+      "positions": "mm",
+      "canvas": "pt"
+    },
+    "page_size": {
+      "width_pt": 612.0,
+      "height_pt": 792.0
+    },
+    "reference": {
+      "left_margin_pt": 70.8661417323,
+      "vertical_offset_pt": 45.83
+    }
+  },
+  "clear_areas_pt": [
+    {
+      "x": 350,
+      "y": 748,
+      "width": 175,
+      "height": 32,
+      "name": "header_dates"
+    },
+    {
+      "x": 108,
+      "y": 707,
+      "width": 155,
+      "height": 76,
+      "name": "header_left_values"
+    },
+    {
+      "x": 300,
+      "y": 707,
+      "width": 225,
+      "height": 38,
+      "name": "header_right_values"
+    },
+    {
+      "x": 438,
+      "y": 598,
+      "width": 112,
+      "height": 90,
+      "name": "integration_amounts"
+    },
+    {
+      "x": 407,
+      "y": 439,
+      "width": 156,
+      "height": 122,
+      "name": "inventory_amounts"
+    },
+    {
+      "x": 407,
+      "y": 290,
+      "width": 156,
+      "height": 108,
+      "name": "discounts_amounts"
+    },
+    {
+      "x": 468,
+      "y": 247,
+      "width": 92,
+      "height": 44,
+      "name": "totals_box"
+    },
+    {
+      "x": 18,
+      "y": 108,
+      "width": 550,
+      "height": 108,
+      "name": "signature_block"
+    }
+  ],
+  "header": {
+    "font_size": 6.2,
+    "fields": {
+      "MES": {
+        "x_pt": 123.41,
+        "y_pt": 767.47,
+        "max_width_pt": 150,
+        "align": "left"
+      },
+      "ULTIMO_CALCULO": {
+        "x_pt": 404.95,
+        "y_pt": 786.01,
+        "max_width_pt": 145,
+        "align": "left"
+      },
+      "FECHA_REPORTE": {
+        "x_pt": 404.95,
+        "y_pt": 778.31,
+        "max_width_pt": 145,
+        "align": "left"
+      },
+      "PLAZA": {
+        "x_pt": 123.41,
+        "y_pt": 759.09,
+        "max_width_pt": 210,
+        "align": "left"
+      },
+      "CRDISTRITO": {
+        "x_pt": 123.41,
+        "y_pt": 750.72,
+        "max_width_pt": 230,
+        "align": "left"
+      },
+      "TIENDA": {
+        "x_pt": 123.41,
+        "y_pt": 742.35,
+        "max_width_pt": 250,
+        "align": "left"
+      },
+      "NOMBRECOMISIONISTA": {
+        "x_pt": 123.41,
+        "y_pt": 733.97,
+        "max_width_pt": 270,
+        "align": "left"
+      }
+    }
+  },
+  "integration": {
+    "right_x_pt": 557.03,
+    "default_font_name": "Helvetica",
+    "total_font_name": "Helvetica",
+    "default_font_size": 6.0,
+    "total_font_size": 6.0,
+    "default_max_width_pt": 80,
+    "total_max_width_pt": 85,
+    "rows": {
+      "comisionfija": {
+        "y_pt": 694.83
+      },
+      "comisionporestructura": {
+        "y_pt": 686.35
+      },
+      "comisionvariable": {
+        "y_pt": 677.87
+      },
+      "subtotalcomison": {
+        "y_pt": 669.39
+      },
+      "ivasubtotalcomision": {
+        "y_pt": 660.91
+      },
+      "retenciondosterciosiva": {
+        "y_pt": 652.03
+      },
+      "retencionisr": {
+        "y_pt": 643.04
+      },
+      "impcedular": {
+        "y_pt": 634.45
+      },
+      "totalcomision": {
+        "y_pt": 625.97
+      }
+    }
+  },
+  "inventory": {
+    "font_size": 5.9,
+    "total_font_size": 5.8,
+    "max_width_pt": 54,
+    "columns": {
+      "ANTERIOR": {
+        "right_x_pt": 263.43
+      },
+      "MENSUAL": {
+        "right_x_pt": 322.15
+      },
+      "ACUMULAD": {
+        "right_x_pt": 380.87
+      },
+      "FACTURAD": {
+        "right_x_pt": 439.59
+      },
+      "NOFAC": {
+        "right_x_pt": 498.32
+      },
+      "SALDO": {
+        "right_x_pt": 557.03
+      }
+    },
+    "rows": {
+      "MERMAMCIACERO": {
+        "y_pt": 583.17
+      },
+      "MERMAMCIAEXENTA": {
+        "y_pt": 574.18
+      },
+      "MERMAMCIACONSIG": {
+        "y_pt": 565.7
+      },
+      "MERMAMCIAGRAVAD": {
+        "y_pt": 557.21
+      },
+      "MERMASUBTOTAL": {
+        "y_pt": 548.73
+      },
+      "MERMAIVA": {
+        "y_pt": 540.25
+      },
+      "MERMAIMPESTATAL": {
+        "y_pt": 531.77
+      },
+      "MERMAIEPS": {
+        "y_pt": 522.78
+      }
+    },
+    "total_row": {
+      "y_pt": 513.11,
+      "white_text": true
+    }
+  },
+  "discounts": {
+    "font_size": 5.8,
+    "total_font_size": 5.8,
+    "max_width_pt": 54,
+    "columns": {
+      "ANTERIOR": {
+        "right_x_pt": 314.95
+      },
+      "MENSUAL": {
+        "right_x_pt": 375.47
+      },
+      "ACUM": {
+        "right_x_pt": 435.99
+      },
+      "RECUP": {
+        "right_x_pt": 496.51
+      },
+      "SALDO": {
+        "right_x_pt": 557.03
+      }
+    },
+    "rows": {
+      "ANTICIPO_COMISION_FIJA_MES_CORRIENTE": {
+        "y_pt": 473.61
+      },
+      "ANTICIPO_COMISION_PAGO_A_TERCEROS": {
+        "y_pt": 465.13
+      },
+      "DIFERENCIA_DE_DEPOSITOS": {
+        "y_pt": 456.4
+      },
+      "OTROS_ANTICIPOS": {
+        "y_pt": 447.66
+      }
+    },
+    "total_row": {
+      "y_pt": 439.18,
+      "white_text": true
+    }
+  },
+  "totals": {
+    "font_size": 6.8,
+    "max_width_pt": 68.03,
+    "right_x_pt": 557.03,
+    "rows": {
+      "TOTAL_A_PAGAR": {
+        "y_pt": 428.59
+      },
+      "FLUJO_MENSUAL": {
+        "y_pt": 417.85
+      }
+    }
+  },
+  "signature": {
+    "clear_area": {
+      "enabled": true,
+      "x_pt": 140,
+      "y_pt": 280,
+      "width_pt": 450,
+      "height_pt": 100
+    },
+    "image": {
+      "enabled": true,
+      "path": "Script/TemplatePDF/Firma_block.png",
+      "x_pt": 30,
+      "y_pt": 290,
+      "width_pt": 550,
+      "height_pt": 110
+    },
+    "line": {
+      "enabled": true,
+      "x1_pt": 142,
+      "x2_pt": 514,
+      "y_pt": 336
+    },
+    "name_center": {
+      "enabled": true,
+      "center_x_pt": 328.0,
+      "y_pt": 340.5,
+      "max_width_pt": 240,
+      "font_size": 8.0
+    },
+    "title": {
+      "enabled": true,
+      "center_x_pt": 328.0,
+      "y_pt": 318.0,
+      "font_name": "Helvetica-Bold",
+      "font_size": 8.0,
+      "max_width_pt": 120,
+      "text": "Firma"
+    },
+    "receipt_line": {
+      "enabled": true,
+      "y_pt": 299.0,
+      "center_x_pt": 328.0,
+      "max_width_pt": 400.0,
+      "prefix_text": "Recibi de Cadena Comercial OXXO S.A. de C.V., la cantidad de $",
+      "suffix_text": "por concepto de Pago",
+      "font_name": "Helvetica",
+      "font_size": 5.8
+    },
+    "amount": {
+      "enabled": true,
+      "x_pt": 364.0,
+      "y_pt": 282.0,
+      "max_width_pt": 64,
+      "font_size": 5.8,
+      "font_name": "Helvetica"
+    },
+    "body": {
+      "enabled": true,
+      "center_x_pt": 328.0,
+      "y_pt": 280,
+      "max_width_pt": 430,
+      "font_name": "Helvetica",
+      "font_size": 5.8,
+      "line_gap_pt": 7.0
+    }
+  }
+}

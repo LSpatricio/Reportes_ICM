@@ -1,0 +1,11 @@
+{
+  "page_index": 0,
+  "font_name": "Helvetica",
+  "font_size": 9,
+  "text_color_rgb": [0, 0, 0],
+  "background_rgb": [1, 1, 1],
+  "template_name": "template pdf finiquito normal sin datos.pdf",
+  "template_reference_name": "PDF Finiquito normal con datos.pdf",
+  "rdl_name": "Finiquito.rdl",
+  "notes": "Layout propio de PDFScriptNormal basado en Finiquito.rdl y en los PDFs normal con y sin datos."
+}
