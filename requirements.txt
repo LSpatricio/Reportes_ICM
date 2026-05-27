@@ -1,0 +1,9 @@
+requests
+python-dotenv
+pypdf
+reportlab
+PyMuPDF
+Pillow
+duckdb
+pandas
+six
