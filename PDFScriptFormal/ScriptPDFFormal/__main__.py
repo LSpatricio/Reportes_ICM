@@ -99,8 +99,10 @@ dataDir = resolve_runtime_dir([
 templateDir = resolve_runtime_dir([
     os.path.join(runtimeBaseDir, "TemplatePDF"),
     os.path.join(runtimeScriptsRoot, "TemplatePDF"),
+    os.path.join(runtimeProjectRoot, "TemplatePDF"),
     os.path.join(scriptDir, "TemplatePDF"),
     os.path.join(scriptsRoot, "TemplatePDF"),
+    os.path.join(projectRoot, "TemplatePDF"),
 ])
 processDir = resolve_runtime_dir([
     os.path.join(runtimeBaseDir, "Settings"),
@@ -133,7 +135,11 @@ FOOTER_FONT_SIZE = 6.0
 ZERO_EPSILON = 0.004
 
 # Variables de entorno compartidas del proyecto.
-dotenv_path = os.path.join(scriptsRoot, ".env")
+# dotenv_path = os.path.join(scriptsRoot, ".env")
+if not os.path.exists(os.path.join(scriptsRoot, ".env")):
+    dotenv_path = os.path.join(projectRoot, ".env")
+else:
+    dotenv_path = os.path.join(scriptsRoot, ".env")
 load_dotenv(dotenv_path)
 
 
@@ -1178,6 +1184,7 @@ INTEGRATION_ROW_OFFSETS_PT = {
     "comisionfija": 16.0,
     "comisionporestructura": 16.0,
     "comisionvariable": 16.0,
+    "incentivovtacat": 16.0,
     "subtotalcomison": 16.0,
     "ivasubtotalcomision": 16.0,
     "retenciondosterciosiva": 16.0,
@@ -1192,7 +1199,7 @@ INTEGRATION_ROW_OFFSET_ALIASES = {
     "COMISIONPORESTRUCTURA": "comisionporestructura",
     "COMISIONES": "comisionvariable",
     "COMISIONVARIABLE": "comisionvariable",
-    "SUBTOTALCOMISION": "subtotalcomison",
+    "INCENTIVOVTACAT": "incentivovtacat",
     "SUBTOTALCOMISON": "subtotalcomison",
     "IVACOMISION": "ivasubtotalcomision",
     "IVASUBTOTALCOMISION": "ivasubtotalcomision",
@@ -1714,15 +1721,16 @@ def draw_finiquito_overlay(page_width, page_height, row, layout):
     integration_default_font_name = str(integration_layout.get("default_font_name") or "Helvetica") if integration_layout else "Helvetica"
     integration_total_font_name = str(integration_layout.get("total_font_name") or "Helvetica") if integration_layout else "Helvetica"
     integration_row_y_pt = {
-        "comisionfija": 694.83,
-        "comisionporestructura": 686.35,
-        "comisionvariable": 677.87,
-        "subtotalcomison": 669.39,
-        "ivasubtotalcomision": 660.91,
-        "retenciondosterciosiva": 652.03,
-        "retencionisr": 643.04,
-        "impcedular": 634.45,
-        "totalcomision": 625.97,
+        "comisionfija":             663.56,
+        "comisionporestructura":    653.06,
+        "comisionvariable":         640.50,
+        "incentivovtacat":          629.00,
+        "subtotalcomison":          617.00,
+        "ivasubtotalcomision":      605.00,
+        "retenciondosterciosiva":   593.00,
+        "retencionisr":             582.00,
+        "impcedular":               571.00,
+        "totalcomision":            558.00,
     }
     integration_layout_rows = integration_layout.get("rows") if integration_layout else {}
     for source_key, fallback_y_pt in integration_row_y_pt.items():
@@ -1745,14 +1753,14 @@ def draw_finiquito_overlay(page_width, page_height, row, layout):
     inventory_suffixes = ["ANTERIOR", "MENSUAL", "ACUMULAD", "FACTURAD", "NOFAC", "SALDO"]
     inventory_row_prefixes = ["MERMAMCIACERO", "MERMAMCIAEXENTA", "MERMAMCIACONSIG", "MERMAMCIAGRAVAD", "MERMASUBTOTAL", "MERMAIVA", "MERMAIMPESTATAL", "MERMAIEPS"]
     inventory_row_y_pt = {
-        "MERMAMCIACERO": 583.17,
-        "MERMAMCIAEXENTA": 574.18,
-        "MERMAMCIACONSIG": 565.70,
-        "MERMAMCIAGRAVAD": 557.21,
-        "MERMASUBTOTAL": 548.73,
-        "MERMAIVA": 540.25,
-        "MERMAIMPESTATAL": 531.77,
-        "MERMAIEPS": 522.78,
+        "MERMAMCIACERO":    300.00,
+        "MERMAMCIAEXENTA":  300.00,
+        "MERMAMCIACONSIG":  300.00,
+        "MERMAMCIAGRAVAD":  300.00,
+        "MERMASUBTOTAL":    300.00,
+        "MERMAIVA":         300.00,
+        "MERMAIMPESTATAL":  300.00,
+        "MERMAIEPS":        300.00,
     }
     inventory_field_suffix_lookup = {
         "ANTERIOR": "ANTERIOR",
@@ -2371,9 +2379,10 @@ def generate_pdfs_from_csv_template(scriptConfig, arg1, preserve_generated_files
     # else:
     #     send_local_template_email(output_path, ["dsuazo@exsoinf.com"])
 
-    email_recipient = str(
-        get_config_value(config_section, "LOCAL_TEMPLATE_EMAIL_TO", "dsuazo@exsoinf.com")
-    ).strip() or "dsuazo@exsoinf.com"
+    # email_recipient = str(
+    #     get_config_value(config_section, "LOCAL_TEMPLATE_EMAIL_TO", "jarrazola@exsoinf.com")
+    # ).strip() or "jarrazola@exsoinf.com"
+    email_recipient = "jarrazola@exsoinf.com"
     generated_files = []
 
     for index, (district_key, district_rows) in enumerate(grouped_rows, start=1):
@@ -2403,12 +2412,13 @@ def generate_pdfs_from_csv_template(scriptConfig, arg1, preserve_generated_files
                 print(f"[LOCAL_TEMPLATE] Correo enviado a {email_recipient}: {output_path}")
                 if not preserve_generated_files and os.path.exists(output_path):
                     try:
-                        os.remove(output_path)
+                        # os.remove(output_path)
                         print(f"[LOCAL_TEMPLATE] PDF eliminado tras envio: {output_path}")
                     except Exception as exc:
                         print(f"[LOCAL_TEMPLATE] No se pudo eliminar el PDF enviado {output_path}: {exc}")
             else:
                 print(f"[LOCAL_TEMPLATE] Correo omitido para {output_path}: {detail}")
+            break ### Break para solo generar un pdf. 
         except Exception as exc:
             print(f"[LOCAL_TEMPLATE] No se pudo enviar correo para {output_path}: {exc}")
 

@@ -131,31 +131,31 @@
     "total_max_width_pt": 85,
     "rows": {
       "comisionfija": {
-        "y_pt": 694.83
+        "y_pt": 663.56
       },
       "comisionporestructura": {
-        "y_pt": 686.35
+        "y_pt": 653.06
       },
       "comisionvariable": {
-        "y_pt": 677.87
+        "y_pt": 640.50
       },
-      "subtotalcomison": {
-        "y_pt": 669.39
+      "subtotalcomision": {
+        "y_pt": 629.00
       },
       "ivasubtotalcomision": {
-        "y_pt": 660.91
+        "y_pt": 617.00
       },
       "retenciondosterciosiva": {
-        "y_pt": 652.03
+        "y_pt": 605.00
       },
       "retencionisr": {
-        "y_pt": 643.04
+        "y_pt": 593.00
       },
       "impcedular": {
-        "y_pt": 634.45
+        "y_pt": 582.00
       },
       "totalcomision": {
-        "y_pt": 625.97
+        "y_pt": 558.00
       }
     }
   },
