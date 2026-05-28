@@ -1696,24 +1696,51 @@ def draw_finiquito_overlay(page_width, page_height, row, layout):
                 "width": safe_float(field_cfg.get("max_width_pt"), fallback_width),
             }
         return {"x": fallback_x, "y": fallback_y, "width": fallback_width}
-
-    mes_pos = header_field_position("MES", 123.41, 767.47, 150)
-    plaza_pos = header_field_position("PLAZA", 123.41, 759.09, 210)
-    distrito_pos = header_field_position("CRDISTRITO", 123.41, 750.72, 230)
-    tienda_pos = header_field_position("TIENDA", 123.41, 742.35, 250)
-    comisionista_pos = header_field_position("NOMBRECOMISIONISTA", 123.41, 733.97, 270)
+    """
+    mes_pos = header_field_position("MES", 1,790, 150)
+    plaza_pos = header_field_position("PLAZA", 60, 749.5, 210)
+    distrito_pos = header_field_position("CRDISTRITO", 55, 739.5, 230)
+    tienda_pos = header_field_position("TIENDA", 78, 727, 250)
+    comisionista_pos = header_field_position("NOMBRECOMISIONISTA", 240, 739.8, 270)
     ultimo_calculo_pos = header_field_position("ULTIMO_CALCULO", 404.95, 786.01, 145)
     fecha_reporte_pos = header_field_position("FECHA_REPORTE", 404.95, 778.31, 145)
+    """
+        # 123.41 y 763.05 (y-33(menos es izquierda), x+10.75(mas es subir))
+    # Arreglado
+    mes_pos = header_field_position("MES", 90.41, 773.80, 110)
+
+    # Arreglado
+    plaza_pos = header_field_position("PLAZA", 123.41-33, 749.50+12.85, 140)
+    distrito_pos = header_field_position("CRDISTRITO", 123.41-33, 741.13+12.85, 150)
+    tienda_pos = header_field_position("TIENDA", 123.41-33, 732.75+12.35, 185)
+
+    # Arreglado
+    comisionista_pos = header_field_position("NOMBRECOMISIONISTA", 240.0, 763.38, 235)
+    
+    ultimo_calculo_pos = header_field_position("ULTIMO_CALCULO", 404.95, 785.90, 145)
+
+    fecha_reporte_pos = header_field_position("FECHA_REPORTE", 404.95, 778.20, 145)
+
+    # Arreglado
+    rfc_pos = header_field_position("RFC", 90.41, 773.80, 110)
+
+    fecha_inicio_pos = header_field_position("FECHAINICIAL", 202.50+55, 776.0, 38)
+    fecha_fin_pos = header_field_position("FECHAFINAL", 256.50+55, 776.0, 38)
 
     header_font_size = parse_float(header_layout.get("font_size"), 6.2) if header_layout else 6.2
 
     draw_text(pdf_canvas, mes_pos["x"], mes_pos["y"], get_row_value(row, "mes"), font_size=header_font_size, max_width=mes_pos["width"], trim_overflow=True, shrink_to_fit=False)
-    draw_text(pdf_canvas, ultimo_calculo_pos["x"], ultimo_calculo_pos["y"], format_spanish_datetime(current_run), font_size=header_font_size, max_width=ultimo_calculo_pos["width"], trim_overflow=True, shrink_to_fit=False)
-    draw_text(pdf_canvas, fecha_reporte_pos["x"], fecha_reporte_pos["y"], format_spanish_date(current_run), font_size=header_font_size, max_width=fecha_reporte_pos["width"], trim_overflow=True, shrink_to_fit=False)
+   #draw_text(pdf_canvas, ultimo_calculo_pos["x"], ultimo_calculo_pos["y"], format_spanish_datetime(current_run), font_size=header_font_size, max_width=ultimo_calculo_pos["width"], trim_overflow=True, shrink_to_fit=False)
+    #draw_text(pdf_canvas, fecha_reporte_pos["x"], fecha_reporte_pos["y"], format_spanish_date(current_run), font_size=header_font_size, max_width=fecha_reporte_pos["width"], trim_overflow=True, shrink_to_fit=False)
     draw_text(pdf_canvas, plaza_pos["x"], plaza_pos["y"], get_row_value(row, "plaza"), font_size=header_font_size, max_width=plaza_pos["width"], trim_overflow=True, shrink_to_fit=False)
     draw_text(pdf_canvas, distrito_pos["x"], distrito_pos["y"], get_row_value(row, "CRDISTRITO"), font_size=header_font_size, max_width=distrito_pos["width"], trim_overflow=True, shrink_to_fit=False)
     draw_text(pdf_canvas, tienda_pos["x"], tienda_pos["y"], normalize_single_line_text(get_row_value(row, "tienda")), font_size=header_font_size, max_width=tienda_pos["width"], min_size=7, trim_overflow=True, shrink_to_fit=False)
     draw_text(pdf_canvas, comisionista_pos["x"], comisionista_pos["y"], build_header_comisionista_text(row), font_size=header_font_size, max_width=comisionista_pos["width"], trim_overflow=True, shrink_to_fit=False)
+    draw_text(pdf_canvas, rfc_pos["x"], rfc_pos["y"], get_row_value(row, "RFC"), font_size=header_font_size, max_width=rfc_pos["width"], trim_overflow=True, shrink_to_fit=False)
+    draw_text(pdf_canvas, fecha_inicio_pos["x"], fecha_inicio_pos["y"], get_row_value(row, "FECHAINICIAL"), font_size=header_font_size, max_width=fecha_inicio_pos["width"], trim_overflow=True, shrink_to_fit=False)
+    draw_text(pdf_canvas, fecha_fin_pos["x"], fecha_fin_pos["y"], get_row_value(row, "FECHAFINAL"), font_size=header_font_size, max_width=fecha_fin_pos["width"], trim_overflow=True, shrink_to_fit=False)
+
+
 
     integration_right_x = safe_float(integration_layout.get("right_x_pt"), 557.03) if integration_layout else 557.03
     integration_default_max_width = safe_float(integration_layout.get("default_max_width_pt"), 80) if integration_layout else 80
@@ -2381,8 +2408,8 @@ def generate_pdfs_from_csv_template(scriptConfig, arg1, preserve_generated_files
     #     send_local_template_email(output_path, ["dsuazo@exsoinf.com"])
 
     email_recipient = str(
-        get_config_value(config_section, "LOCAL_TEMPLATE_EMAIL_TO", "dsuazo@exsoinf.com")
-    ).strip() or "dsuazo@exsoinf.com"
+        get_config_value(config_section, "LOCAL_TEMPLATE_EMAIL_TO", "lpatricio@exsoinf.com")
+    ).strip() or "lpatricio@exsoinf.com"
     generated_files = []
 
     for index, (district_key, district_rows) in enumerate(grouped_rows, start=1):
@@ -2406,7 +2433,8 @@ def generate_pdfs_from_csv_template(scriptConfig, arg1, preserve_generated_files
             f"[LOCAL_TEMPLATE] PDF generado {index}/{len(grouped_rows)}: {output_path} "
             f"({len(district_rows)} pagina(s) / registro(s) para CRDISTRITO={district_key})"
         )
-        try:
+        
+        """try:
             sent, detail = send_local_template_email(output_path, email_recipient)
             if sent:
                 print(f"[LOCAL_TEMPLATE] Correo enviado a {email_recipient}: {output_path}")
@@ -2419,7 +2447,7 @@ def generate_pdfs_from_csv_template(scriptConfig, arg1, preserve_generated_files
             else:
                 print(f"[LOCAL_TEMPLATE] Correo omitido para {output_path}: {detail}")
         except Exception as exc:
-            print(f"[LOCAL_TEMPLATE] No se pudo enviar correo para {output_path}: {exc}")
+            print(f"[LOCAL_TEMPLATE] No se pudo enviar correo para {output_path}: {exc}")"""
 
     return generated_files
 
