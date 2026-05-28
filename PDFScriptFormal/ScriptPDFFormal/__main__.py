@@ -1705,6 +1705,10 @@ def draw_finiquito_overlay(page_width, page_height, row, layout):
     ultimo_calculo_pos = header_field_position("ULTIMO_CALCULO", 404.95, 786.01, 145)
     fecha_reporte_pos = header_field_position("FECHA_REPORTE", 404.95, 778.31, 145)
     """
+
+
+    tiendaDetalle= re.match(r"^(.*?)\((.*?)\)$",get_row_value(row, "tienda"))
+    
         # 123.41 y 763.05 (y-33(menos es izquierda), x+10.75(mas es subir))
     # Arreglado
     mes_pos = header_field_position("MES", 90.41, 773.80, 110)
@@ -1713,6 +1717,7 @@ def draw_finiquito_overlay(page_width, page_height, row, layout):
     plaza_pos = header_field_position("PLAZA", 123.41-33, 749.50+12.85, 140)
     distrito_pos = header_field_position("CRDISTRITO", 123.41-33, 741.13+12.85, 150)
     tienda_pos = header_field_position("TIENDA", 123.41-33, 732.75+12.35, 185)
+    nombreTienda_pos = header_field_position("NOMBRETIENDA", 123.41-33, 732.75+12.35, 185)
 
     # Arreglado
     comisionista_pos = header_field_position("NOMBRECOMISIONISTA", 240.0, 763.38, 235)
@@ -1734,8 +1739,13 @@ def draw_finiquito_overlay(page_width, page_height, row, layout):
     #draw_text(pdf_canvas, fecha_reporte_pos["x"], fecha_reporte_pos["y"], format_spanish_date(current_run), font_size=header_font_size, max_width=fecha_reporte_pos["width"], trim_overflow=True, shrink_to_fit=False)
     draw_text(pdf_canvas, plaza_pos["x"], plaza_pos["y"], get_row_value(row, "plaza"), font_size=header_font_size, max_width=plaza_pos["width"], trim_overflow=True, shrink_to_fit=False)
     draw_text(pdf_canvas, distrito_pos["x"], distrito_pos["y"], get_row_value(row, "CRDISTRITO"), font_size=header_font_size, max_width=distrito_pos["width"], trim_overflow=True, shrink_to_fit=False)
-    draw_text(pdf_canvas, tienda_pos["x"], tienda_pos["y"], normalize_single_line_text(get_row_value(row, "tienda")), font_size=header_font_size, max_width=tienda_pos["width"], min_size=7, trim_overflow=True, shrink_to_fit=False)
-    draw_text(pdf_canvas, comisionista_pos["x"], comisionista_pos["y"], build_header_comisionista_text(row), font_size=header_font_size, max_width=comisionista_pos["width"], trim_overflow=True, shrink_to_fit=False)
+    #draw_text(pdf_canvas, tienda_pos["x"], tienda_pos["y"], normalize_single_line_text(get_row_value(row, "tienda")), font_size=header_font_size, max_width=tienda_pos["width"], min_size=7, trim_overflow=True, shrink_to_fit=False)
+    draw_text(pdf_canvas, tienda_pos["x"], tienda_pos["y"], tiendaDetalle.group(1), font_size=header_font_size, max_width=tienda_pos["width"], min_size=7, trim_overflow=True, shrink_to_fit=False)
+    draw_text(pdf_canvas, nombreTienda_pos["x"], nombreTienda_pos["y"], tiendaDetalle.group(2), font_size=header_font_size, max_width=nombreTienda_pos["width"], min_size=7, trim_overflow=True, shrink_to_fit=False)
+
+    #draw_text(pdf_canvas, tienda_pos["x"], tienda_pos["y"], normalize_single_line_text(get_row_value(row, "tienda")), font_size=header_font_size, max_width=tienda_pos["width"], min_size=7, trim_overflow=True, shrink_to_fit=False)
+    #draw_text(pdf_canvas, comisionista_pos["x"], comisionista_pos["y"], build_header_comisionista_text(row), font_size=header_font_size, max_width=comisionista_pos["width"], trim_overflow=True, shrink_to_fit=False)
+    draw_text(pdf_canvas, comisionista_pos["x"], comisionista_pos["y"], get_row_value(row,"NOMBRECOMISIONISTA"), font_size=header_font_size, max_width=comisionista_pos["width"], trim_overflow=True, shrink_to_fit=False)
     draw_text(pdf_canvas, rfc_pos["x"], rfc_pos["y"], get_row_value(row, "RFC"), font_size=header_font_size, max_width=rfc_pos["width"], trim_overflow=True, shrink_to_fit=False)
     draw_text(pdf_canvas, fecha_inicio_pos["x"], fecha_inicio_pos["y"], get_row_value(row, "FECHAINICIAL"), font_size=header_font_size, max_width=fecha_inicio_pos["width"], trim_overflow=True, shrink_to_fit=False)
     draw_text(pdf_canvas, fecha_fin_pos["x"], fecha_fin_pos["y"], get_row_value(row, "FECHAFINAL"), font_size=header_font_size, max_width=fecha_fin_pos["width"], trim_overflow=True, shrink_to_fit=False)

@@ -113,6 +113,12 @@
         "max_width_pt": 250,
         "align": "left"
       },
+       "NOMBRETIENDA": {
+        "x_pt": 74,
+        "y_pt": 717.7,
+        "max_width_pt": 250,
+        "align": "left"
+      },
       "NOMBRECOMISIONISTA": {
         "x_pt": 238,
         "y_pt": 740.7,
