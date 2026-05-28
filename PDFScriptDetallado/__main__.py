@@ -1012,9 +1012,9 @@ def resolve_local_template_path(config_section):
 def find_default_layout_path():
     preferred_layouts = [
         os.path.join(templateDir, "layout.finiquito.detallado.json"),
-        os.path.join(templateDir, "layout.json"),
+        # os.path.join(templateDir, "layout.json"),
         os.path.join(scriptDir, "layout.finiquito.detallado.json"),
-        os.path.join(scriptDir, "layout.json"),
+        # os.path.join(scriptDir, "layout.json"),
     ]
     for candidate in preferred_layouts:
         if candidate and os.path.exists(candidate):
@@ -2339,34 +2339,35 @@ def draw_finiquito_overlay(page_width, page_height, row, layout):
     integration_default_font_size = parse_float(integration_layout.get("default_font_size"), 5.9) if integration_layout else 5.9
     integration_total_font_size = parse_float(integration_layout.get("total_font_size"), 5.9) if integration_layout else 5.9
     integration_rows = [
-        ("comisionfija", 684.13, get_numeric_field_or_rdl(layout, row, "comisionfija"), False),
-        ("comisionporestructura", 675.65, get_numeric_field_or_rdl(layout, row, "comisionporestructura"), False),
-        ("sueldoempleados", 667.17, get_numeric_field_or_rdl(layout, row, "sueldoempleados"), False),
-        ("imssysarempleados", 658.69, get_numeric_field_or_rdl(layout, row, "imssysarempleados"), False),
-        ("infonavitempleados", 650.21, get_numeric_field_or_rdl(layout, row, "infonavitempleados"), False),
-        ("isnempleados", 641.73, get_numeric_field_or_rdl(layout, row, "isnempleados"), False),
+        # Hay una separación de 10.4 entre cada elemento
+        ("comisionfija", 696, get_numeric_field_or_rdl(layout, row, "comisionfija"), False),
+        ("comisionporestructura", 685.6, get_numeric_field_or_rdl(layout, row, "comisionporestructura"), False),
+        ("sueldoempleados", 675.2, get_numeric_field_or_rdl(layout, row, "sueldoempleados"), False),
+        ("imssysarempleados", 664.8, get_numeric_field_or_rdl(layout, row, "imssysarempleados"), False),
+        ("infonavitempleados", 654.4, get_numeric_field_or_rdl(layout, row, "infonavitempleados"), False),
+        ("isnempleados", 644, get_numeric_field_or_rdl(layout, row, "isnempleados"), False),
         # La plantilla muestra ISPT en este renglón; su valor se calcula con la formula de costos laborales.
-        ("ispt", 633.25, get_numeric_field_or_rdl(layout, row, "ispt"), False),
-        ("aguinaldoempleadospago", 624.76, get_numeric_field_or_rdl(layout, row, "aguinaldoempleadospago"), False),
-        ("comisionvariable", 616.28, get_numeric_field_or_rdl(layout, row, "comisionvariable"), False),
-        ("comisionventatabulador", 607.80, get_numeric_field_or_rdl(layout, row, "comisionventatabulador"), False),
-        ("comisionventatae", 599.32, get_numeric_field_or_rdl(layout, row, "comisionventatae"), False),
-        ("incentivosobremerma", 590.84, get_numeric_field_or_rdl(layout, row, "incentivosobremerma"), False),
-        ("incentivobasesobremerma", 582.36, get_numeric_field_or_rdl(layout, row, "incentivobasesobremerma"), False),
-        ("multiplomerma", 573.88, get_numeric_field_or_rdl(layout, row, "multiplomerma"), False),
-        ("incentivoporejecucion", 565.40, get_numeric_field_or_rdl(layout, row, "incentivoporejecucion"), False),
-        ("incentivobaseejecucion", 556.92, get_numeric_field_or_rdl(layout, row, "incentivobaseejecucion"), False),
-        ("multiploporejecucion", 548.44, get_numeric_field_or_rdl(layout, row, "multiploporejecucion"), False),
-        ("incentivovtacat", 539.95, get_numeric_field_or_rdl(layout, row, "incentivovtacat"), False),
-        ("comisionextraordinariaca", 531.47, get_numeric_field_or_rdl(layout, row, "comisionextraordinariaca"), False),
-        ("incentivoextraordinario", 522.99, get_numeric_field_or_rdl(layout, row, "incentivoextraordinario"), False),
-        ("comisionextraordinaria", 514.51, get_numeric_field_or_rdl(layout, row, "comisionextraordinaria"), False),
-        ("subtotalcomison", 506.03, get_numeric_field_or_rdl(layout, row, "subtotalcomison"), False),
-        ("ivasubtotalcomision", 497.55, get_numeric_field_or_rdl(layout, row, "ivasubtotalcomision"), False),
-        ("retenciondosterciosiva", 489.07, get_numeric_field_or_rdl(layout, row, "retenciondosterciosiva"), False),
-        ("retencionisr", 480.09, get_numeric_field_or_rdl(layout, row, "retencionisr"), False),
-        ("impcedular", 471.10, get_numeric_field_or_rdl(layout, row, "impcedular"), False),
-        ("totalcomision", 462.62, get_numeric_field_or_rdl(layout, row, "totalcomision"), False),
+        ("ispt", 633.6, get_numeric_field_or_rdl(layout, row, "ispt"), False),
+        ("aguinaldoempleadospago", 623.2, get_numeric_field_or_rdl(layout, row, "aguinaldoempleadospago"), False),
+        ("comisionvariable", 612.8, get_numeric_field_or_rdl(layout, row, "comisionvariable"), False),
+        ("comisionventatabulador", 602.4, get_numeric_field_or_rdl(layout, row, "comisionventatabulador"), False),
+        ("comisionventatae", 592, get_numeric_field_or_rdl(layout, row, "comisionventatae"), False),
+        ("incentivosobremerma", 581.6, get_numeric_field_or_rdl(layout, row, "incentivosobremerma"), False),
+        ("incentivobasesobremerma", 571.2, get_numeric_field_or_rdl(layout, row, "incentivobasesobremerma"), False),
+        ("multiplomerma", 560.2, get_numeric_field_or_rdl(layout, row, "multiplomerma"), False),
+        ("incentivoporejecucion", 550.4, get_numeric_field_or_rdl(layout, row, "incentivoporejecucion"), False),
+        ("incentivobaseejecucion", 540, get_numeric_field_or_rdl(layout, row, "incentivobaseejecucion"), False),
+        ("multiploporejecucion", 529.6, get_numeric_field_or_rdl(layout, row, "multiploporejecucion"), False),
+        ("incentivovtacat", 519.2, get_numeric_field_or_rdl(layout, row, "incentivovtacat"), False),
+        ("comisionextraordinariaca", 508.8, get_numeric_field_or_rdl(layout, row, "comisionextraordinariaca"), False),
+        ("incentivoextraordinario", 498.4, get_numeric_field_or_rdl(layout, row, "incentivoextraordinario"), False),
+        ("comisionextraordinaria", 488, get_numeric_field_or_rdl(layout, row, "comisionextraordinaria"), False),
+        ("subtotalcomison", 477.6, get_numeric_field_or_rdl(layout, row, "subtotalcomison"), False),
+        ("ivasubtotalcomision", 467.2, get_numeric_field_or_rdl(layout, row, "ivasubtotalcomision"), False),
+        ("retenciondosterciosiva", 456.8, get_numeric_field_or_rdl(layout, row, "retenciondosterciosiva"), False),
+        ("retencionisr", 446.4, get_numeric_field_or_rdl(layout, row, "retencionisr"), False),
+        ("impcedular", 436, get_numeric_field_or_rdl(layout, row, "impcedular"), False),
+        ("totalcomision", 425.6, get_numeric_field_or_rdl(layout, row, "totalcomision"), False),
     ]
     integration_rows_layout = integration_layout.get("rows") if integration_layout else {}
     for source_key, fallback_y_pt, value, is_total in integration_rows:
@@ -3130,8 +3131,8 @@ def generate_pdfs_from_csv_template(scriptConfig, arg1, preserve_generated_files
     #     send_local_template_email(output_path, ["dsuazo@exsoinf.com"])
 
     email_recipient = str(
-        get_config_value(config_section, "LOCAL_TEMPLATE_EMAIL_TO", "dsuazo@exsoinf.com")
-    ).strip() or "dsuazo@exsoinf.com"
+        get_config_value(config_section, "LOCAL_TEMPLATE_EMAIL_TO", "hzermeno@exsoinf.com")
+    ).strip() or "hzermeno@exsoinf.com"
     generated_files = []
 
     for index, (district_key, district_rows) in enumerate(grouped_rows, start=1):
