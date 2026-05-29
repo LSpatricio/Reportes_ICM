@@ -1753,7 +1753,6 @@ def draw_finiquito_overlay(page_width, page_height, row, layout):
     draw_text(pdf_canvas, rfc_pos["x"], rfc_pos["y"], get_row_value(row, "RFC"), font_size=header_font_size, max_width=rfc_pos["width"], trim_overflow=True, shrink_to_fit=False)
     draw_text(pdf_canvas, fecha_inicio_pos["x"], fecha_inicio_pos["y"], get_row_value(row, "FECHAINICIAL"), font_size=header_font_size, max_width=fecha_inicio_pos["width"], trim_overflow=True, shrink_to_fit=False)
     draw_text(pdf_canvas, fecha_fin_pos["x"], fecha_fin_pos["y"], get_row_value(row, "FECHAFINAL"), font_size=header_font_size, max_width=fecha_fin_pos["width"], trim_overflow=True, shrink_to_fit=False)
-    draw_text(pdf_canvas, fecha_fin_pos["x"], fecha_fin_pos["y"], mes_anio, font_size=header_font_size, max_width=fecha_fin_pos["width"], trim_overflow=True, shrink_to_fit=False)
 
 
 
