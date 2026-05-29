@@ -1890,7 +1890,7 @@ def draw_finiquito_overlay(page_width, page_height, row, layout):
         }),
         ("ANTICIPO_COMISION_PAGO_A_TERCEROS", {
             "ANTERIOR": sum_row_fields(row, ["ANTICIPOCONT_ANTERIOR", "ANTICIPOIMPRFAC_ANTERIOR", "ANTICIPOPAGOSAL_ANTERIOR", "APORTCAJAAHORRO_ANTERIOR", "DEV_AGUINALDO_ANTERIOR", "DEVRETDIFIVA_ANTERIOR", "PRESTAMOCAJAAHO_ANTERIOR", "RETENUNTERCIO_ANTERIOR", "RETENIMPUESTOS_ANTERIOR", "RETENIMPNOMEMP_ANTERIOR", "ANTICIPOPAMULTA_ANTERIOR", "RESERAGUINALRED_ANTERIOR"]),
-            "MENSUAL": sum_row_fields(row, ["ANTIDESPCONT_MENSUAL", "ANTIIMPRFACT_MENSUAL", "DEVRETDIFIVA_MENSUAL", "RETENUNTERCIOIVA_MENSUAL", "RETENIMPUESTOS_MENSUAL", "RETENIMPNOMEMP_MENSUAL", "ANTIPAGOSALARIOS_MENSUAL", "APORTCAJAAHORRO_MENSUAL", "PRESTCAJAAHORRO_MENSUAL", "RESERAGUINREDPAT_MENSUAL", "DEV_AGUINALDO_MENSUAL", "ANTIPAGOMULTAS_MENSUAL"]),
+            "MENSUAL": sum_row_fields(row, ["ANTIDESPCONT_MENSUAL", "ANTIIMPRFACT_MENSUAL", "DEVRETDIFIVA_MENSUAL", "RETENUNTERCIOIVA_MENSUAL", "RETENIMPUESTOS_MENSUAL", "RETENIMPNOMEMP_MENSUAL", "ANTIPAGOSALARIOS_MENSUAL", "APORTCAJAAHORRO_MENSUAL", "PRESTCAJAAHORRO_MENSUAL", "RESERAGUINREDPAT_MENSUAL", "DEV_AGUINALDO_MENSUAL", "ANTIPAGOMULTAS_SALDO"]),
             "ACUM": sum_row_fields(row, ["ANTIDESPCONT_ACUM", "ANTIIMPRFACT_ACUM", "ANTIPAGOMULTAS_ACUM", "ANTIPAGOSALARIOS_ACUM", "APORTCAJAAHORROS_ACUM", "DEVRETENDIFIVA_ACUM", "RETENCIONUNTERCIO_ACUM", "RETENCIONIMP_ACUM", "RETENCIONIMPNOMEMP_ACUM", "RESERAGUINRED_ACUM", "DEV_AGUINALDO_ACUMULADA", "PRESTAMOCAJAAHORRO_ACUM"]),
             "RECUP": sum_row_fields(row, ["ANTIDESPCONT_RECUP", "ANTIIMPRFACT_RECUP", "DEVRETENDIFIVA_RECUP", "RETENUNTERCIOIVA_RECUP", "RETENIMPUESTOS_RECUP", "RETENIMPNOMEMP_RECUP", "APORTCAJAAHORROS_RECUP", "PRESTAMOCAJAAHORRO_RECUP", "RESERAGUINRED_RECUP", "ANTIPAGOSALARIOS_RECUP", "DEV_AGUINALDO_RECUP", "ANTIPAGOMULTAS_RECUP"]),
             "SALDO": sum_row_fields(row, ["ANTIDESPCONTABLE_SALDO", "ANTIIMPFACT_SALDO", "ANTIPAGOMULTAS_SALDO", "ANTIPAGOSALARIOS_SALDO", "APORTCAJAAHORRO_SALDO", "DEVRETENDIFIVA_SALDO", "PRESTOTALCAJAHORRO_SALDO", "RESERAGUINRED_SALDO", "RETENUNTERCIOIVA_SALDO", "RETENIMPNOMEMP_SALDO", "RETENIMPUESTOS_SALDO", "DEV_AGUINALDO_SALDO"]),
@@ -1903,24 +1903,34 @@ def draw_finiquito_overlay(page_width, page_height, row, layout):
             "SALDO": get_numeric_field_or_rdl(layout, row, "DIFDESPOSITOS_SALDO"),
         }),
         ("OTROS_ANTICIPOS", {
-            "ANTERIOR": get_numeric_field_or_rdl(layout, row, "ANTICIPOSOTROS_ANTERIOR"),
-            "MENSUAL": get_numeric_field_or_rdl(layout, row, "ANTIOTROS_MENSUAL"),
-            "ACUM": get_numeric_field_or_rdl(layout, row, "ANTICIPOSOTROS_ACUM"),
-            "RECUP": get_numeric_field_or_rdl(layout, row, "ANTICIPOSOTROS_RECUP"),
-            "SALDO": get_numeric_field_or_rdl(layout, row, "ANTICIPOSOTROS_SALDO"),
+            "ANTERIOR": sum_row_fields(row, ["ANTICIPOSPECIAL_ANTERIOR", "ANTICIPOPAGOTEL_ANTERIOR", "ANTICIPOSOTROS_ANTERIOR", "DESCUENTOSEGVOL_ANTERIOR", "DESCUENTOFASTFO_ANTERIOR" ,"ANTICIPESPTOTAL_ANTERIOR"]),
+            "MENSUAL": sum_row_fields(row, ["ANTIPAGOTEL_MENSUAL", "ANTIESPECIAL_MENSUAL", "DESCFASTFOOD_MENSUAL", "DESCSEGVOLUN_MENSUAL", "ANTIOTROS_MENSUAL" ,"PAGOTOTANTIESPE_MENSUAL"]),
+            "ACUM":  sum_row_fields(row, ["ANTIPAGOTEL_ACUM", "ANTIESPECIALES_ACUM", "DESCFASTFOOD_ACUM", "DESCSEGVOLUN_ACUM", "ANTICIPOSOTROS_ACUM" ,"PAGOTOTANTIESPE_ACUM"]),
+            "RECUP": sum_row_fields(row, ["ANTIPAGOTEL_RECUP", "ANTIESPECIALES_RECUP", "DESCUENTOFASTFOOD_RECUP", "DESCSEGVOLUN_RECUP", "ANTICIPOSOTROS_RECUP" ,"PAGOTOTANTIESPE_RECUP"]),
+            "SALDO": sum_row_fields(row, ["PAGOTOTANTIESPECIA_SALDO", "ANTIESPECIALES_SALDO", "DESCFASTFOOD_SALDO", "ANTICIPOSOTROS_SALDO", "DESCSEGDIFIVA_SALDO" ,"ANTIPAGOTELEFONO_SALDO"]),
         }),
     ]
+
+    totalDiscounts_rows = [
+        ("TOTAL_ANTICIPOS", {
+            "ANTERIOR": sum_row_fields(row, ["TOTALANTICIPOS_ANTERIOR", "RESERVACARED_ANTERIOR", "ANTICIPOCAPACIT_ANTERIOR", "RESERCRECIPATRI_ANTERIOR", "DEV_AGUINALDO_ANTERIOR" ]),
+            "MENSUAL": sum_row_fields(row, ["TOTALANTICIPOS_MENSUAL", "ANTICAPACITACION_MENSUAL", "RESERVACARED_MENSUAL", "RESERCRECIPATRI_MENSUAL", "DEV_AGUINALDO_MENSUAL" ]),
+            "ACUM":  sum_row_fields(row, ["TOTALANTICIPOS_ACUM", "ANTICAPACITACION_ACUM", "RESERCRECIPAT_ACUM", "RESERVACARED_ACUM", "DEV_AGUINALDO_ACUMULADA" ]),
+            "RECUP": sum_row_fields(row, ["TOTALANTICIPOS_RECUP", "ANTICAPACITACION_RECUP", "RESERCRECIPAT_RECUP", "RESERVACARED_RECUP", "DEV_AGUINALDO_RECUP" ]),
+            "SALDO": sum_row_fields(row, ["TOTALANTICIPOS_SALDO", "ANTICAPACITACION_SALDO", "RESERCRECIPAT_SALDO", "RESERVACARED_SALDO", "DEV_AGUINALDO_SALDO" ]),
+        }),]
+
     discounts_rows_layout = discounts_layout.get("rows") if discounts_layout else {}
     discounts_font_size = parse_float(discounts_layout.get("font_size"), 5.8) if discounts_layout else 5.8
     discounts_total_font_size = parse_float(discounts_layout.get("total_font_size"), 5.8) if discounts_layout else 5.8
     discounts_max_width = safe_float(discounts_layout.get("max_width_pt"), 54) if discounts_layout else 54
     fallback_discount_y = {0: 473.61, 1: 465.13, 2: 456.40, 3: 447.66}
-    discounts_totals = {suffix: 0.0 for suffix in ("ANTERIOR", "MENSUAL", "ACUM", "RECUP", "SALDO")}
+    #discounts_totals = {suffix: 0.0 for suffix in ("ANTERIOR", "MENSUAL", "ACUM", "RECUP", "SALDO")}
     for row_index, (row_key, values_by_suffix) in enumerate(discounts_rows):
         row_cfg = discounts_rows_layout.get(row_key, {}) if isinstance(discounts_rows_layout, dict) else {}
         row_y = safe_float(row_cfg.get("y_pt"), fallback_discount_y[row_index]) if row_cfg else fallback_discount_y[row_index]
         for suffix, value in values_by_suffix.items():
-            discounts_totals[suffix] += value
+            #discounts_totals[suffix] += value
             draw_right_currency(pdf_canvas, discounts_column_right_x[suffix], row_y, value, font_name="Helvetica", font_size=discounts_font_size, max_width=discounts_max_width)
     discounts_total_row_cfg = discounts_layout.get("total_row") if discounts_layout else {}
     if isinstance(discounts_total_row_cfg, dict) and discounts_total_row_cfg:
@@ -1929,8 +1939,16 @@ def draw_finiquito_overlay(page_width, page_height, row, layout):
     else:
         discounts_total_y = 311.00
         discounts_total_white = True
-    for suffix, value in discounts_totals.items():
-        draw_right_currency(pdf_canvas, discounts_column_right_x[suffix], discounts_total_y, value, font_name="Helvetica-Bold", font_size=discounts_total_font_size, max_width=discounts_max_width, text_rgb=(1,1,1) if discounts_total_white else None)
+    for row_index, (row_key, values_by_suffix) in enumerate(totalDiscounts_rows):
+        row_cfg = discounts_rows_layout.get(row_key, {}) if isinstance(discounts_rows_layout, dict) else {}
+        row_y = safe_float(row_cfg.get("y_pt"), fallback_discount_y[row_index]) if row_cfg else fallback_discount_y[row_index]
+        for suffix, value in values_by_suffix.items():
+            draw_right_currency(pdf_canvas, discounts_column_right_x[suffix], discounts_total_y, value, font_name="Helvetica-Bold", font_size=discounts_total_font_size, max_width=discounts_max_width, text_rgb=(1,1,1) if discounts_total_white else None)
+    
+    
+    
+    #for suffix, value in discounts_totals.items():
+        #draw_right_currency(pdf_canvas, discounts_column_right_x[suffix], discounts_total_y, value, font_name="Helvetica-Bold", font_size=discounts_total_font_size, max_width=discounts_max_width, text_rgb=(1,1,1) if discounts_total_white else None)
 
     totals_right_x = safe_float(totals_layout.get("right_x_pt"), 557.03) if totals_layout else 557.03
     totals_max_width = safe_float(totals_layout.get("max_width_pt"), mm_to_points("24.00000mm")) if totals_layout else mm_to_points("24.00000mm")
