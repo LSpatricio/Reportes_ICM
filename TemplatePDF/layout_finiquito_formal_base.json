@@ -78,9 +78,9 @@
     "font_size": 6.2,
     "fields": {
       "MES": {
-        "x_pt": 123.41,
-        "y_pt": 767.47,
-        "max_width_pt": 150,
+        "x_pt":  74,
+        "y_pt": 762,
+        "max_width_pt": 110,
         "align": "left"
       },
       "ULTIMO_CALCULO": {
@@ -96,26 +96,50 @@
         "align": "left"
       },
       "PLAZA": {
-        "x_pt": 123.41,
-        "y_pt": 759.09,
+        "x_pt": 74,
+        "y_pt": 749.5,
         "max_width_pt": 210,
         "align": "left"
       },
       "CRDISTRITO": {
-        "x_pt": 123.41,
-        "y_pt": 750.72,
+        "x_pt": 74,
+        "y_pt": 740,
         "max_width_pt": 230,
         "align": "left"
       },
       "TIENDA": {
-        "x_pt": 123.41,
-        "y_pt": 742.35,
+        "x_pt": 74,
+        "y_pt": 727.7,
+        "max_width_pt": 250,
+        "align": "left"
+      },
+       "NOMBRETIENDA": {
+        "x_pt": 74,
+        "y_pt": 717.7,
         "max_width_pt": 250,
         "align": "left"
       },
       "NOMBRECOMISIONISTA": {
-        "x_pt": 123.41,
-        "y_pt": 733.97,
+        "x_pt": 238,
+        "y_pt": 740.7,
+        "max_width_pt": 270,
+        "align": "left"
+      },
+      "RFC": {
+        "x_pt": 210,
+        "y_pt": 727.7,
+        "max_width_pt": 270,
+        "align": "left"
+      },
+      "FECHAINICIAL": {
+        "x_pt": 243,
+        "y_pt":765.8,
+        "max_width_pt": 270,
+        "align": "left"
+      },
+      "FECHAFINAL": {
+        "x_pt": 290,
+        "y_pt": 765.8,
         "max_width_pt": 270,
         "align": "left"
       }
