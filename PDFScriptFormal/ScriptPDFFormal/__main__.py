@@ -1924,10 +1924,10 @@ def draw_finiquito_overlay(page_width, page_height, row, layout):
             draw_right_currency(pdf_canvas, discounts_column_right_x[suffix], row_y, value, font_name="Helvetica", font_size=discounts_font_size, max_width=discounts_max_width)
     discounts_total_row_cfg = discounts_layout.get("total_row") if discounts_layout else {}
     if isinstance(discounts_total_row_cfg, dict) and discounts_total_row_cfg:
-        discounts_total_y = safe_float(discounts_total_row_cfg.get("y_pt"), 439.18)
+        discounts_total_y = safe_float(discounts_total_row_cfg.get("y_pt"), 311.00)
         discounts_total_white = bool(discounts_total_row_cfg.get("white_text", True))
     else:
-        discounts_total_y = 439.18
+        discounts_total_y = 311.00
         discounts_total_white = True
     for suffix, value in discounts_totals.items():
         draw_right_currency(pdf_canvas, discounts_column_right_x[suffix], discounts_total_y, value, font_name="Helvetica-Bold", font_size=discounts_total_font_size, max_width=discounts_max_width, text_rgb=(1,1,1) if discounts_total_white else None)
@@ -2439,11 +2439,11 @@ def generate_pdfs_from_csv_template(scriptConfig, arg1, preserve_generated_files
     # if district_recipients:
     #     send_local_template_email(output_path, district_recipients)
     # else:
-    #     send_local_template_email(output_path, ["jarrazola@exsoinf.com"])
+    #     send_local_template_email(output_path, ["dsuazo@exsoinf.com"])
 
     email_recipient = str(
-        get_config_value(config_section, "LOCAL_TEMPLATE_EMAIL_TO", "jarrazola@exsoinf.com")
-    ).strip() or "jarrazola@exsoinf.com"
+        get_config_value(config_section, "LOCAL_TEMPLATE_EMAIL_TO", "dsuazo@exsoinf.com")
+    ).strip() or "dsuazo@exsoinf.com"
     generated_files = []
 
     for index, (district_key, district_rows) in enumerate(grouped_rows, start=1):
@@ -2474,7 +2474,7 @@ def generate_pdfs_from_csv_template(scriptConfig, arg1, preserve_generated_files
                 print(f"[LOCAL_TEMPLATE] Correo enviado a {email_recipient}: {output_path}")
                 if not preserve_generated_files and os.path.exists(output_path):
                     try:
-                        # os.remove(output_path)
+                        os.remove(output_path)
                         print(f"[LOCAL_TEMPLATE] PDF eliminado tras envio: {output_path}")
                     except Exception as exc:
                         print(f"[LOCAL_TEMPLATE] No se pudo eliminar el PDF enviado {output_path}: {exc}")
@@ -2482,7 +2482,6 @@ def generate_pdfs_from_csv_template(scriptConfig, arg1, preserve_generated_files
                 print(f"[LOCAL_TEMPLATE] Correo omitido para {output_path}: {detail}")
         except Exception as exc:
             print(f"[LOCAL_TEMPLATE] No se pudo enviar correo para {output_path}: {exc}")
-        break
     return generated_files
 
 
