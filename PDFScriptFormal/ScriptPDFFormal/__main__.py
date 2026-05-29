@@ -1772,11 +1772,11 @@ def draw_finiquito_overlay(page_width, page_height, row, layout):
     }
     inventory_layout_columns = inventory_layout.get("columns") if inventory_layout else {}
     inventory_column_right_x = {
-        "ANTERIOR": safe_float(((inventory_layout_columns.get("ANTERIOR") or {}).get("right_x_pt") if isinstance(inventory_layout_columns, dict) else None), 263.43),
-        "MENSUAL": safe_float(((inventory_layout_columns.get("MENSUAL") or {}).get("right_x_pt") if isinstance(inventory_layout_columns, dict) else None), 322.15),
-        "ACUMULAD": safe_float(((inventory_layout_columns.get("ACUMULAD") or {}).get("right_x_pt") if isinstance(inventory_layout_columns, dict) else None), 380.87),
-        "FACTURAD": safe_float(((inventory_layout_columns.get("FACTURAD") or {}).get("right_x_pt") if isinstance(inventory_layout_columns, dict) else None), 439.59),
-        "NOFAC": safe_float(((inventory_layout_columns.get("NOFAC") or {}).get("right_x_pt") if isinstance(inventory_layout_columns, dict) else None), 498.32),
+        "ANTERIOR": safe_float(((inventory_layout_columns.get("ANTERIOR") or {}).get("right_x_pt") if isinstance(inventory_layout_columns, dict) else None), 256.00),
+        "MENSUAL": safe_float(((inventory_layout_columns.get("MENSUAL") or {}).get("right_x_pt") if isinstance(inventory_layout_columns, dict) else None), 316.00),
+        "ACUMULAD": safe_float(((inventory_layout_columns.get("ACUMULAD") or {}).get("right_x_pt") if isinstance(inventory_layout_columns, dict) else None), 376.00),
+        "FACTURAD": safe_float(((inventory_layout_columns.get("FACTURAD") or {}).get("right_x_pt") if isinstance(inventory_layout_columns, dict) else None), 437.00),
+        "NOFAC": safe_float(((inventory_layout_columns.get("NOFAC") or {}).get("right_x_pt") if isinstance(inventory_layout_columns, dict) else None), 497.00),
         "SALDO": safe_float(((inventory_layout_columns.get("SALDO") or {}).get("right_x_pt") if isinstance(inventory_layout_columns, dict) else None), 557.03),
     }
     inventory_rows_layout = inventory_layout.get("rows") if inventory_layout else {}
@@ -1812,10 +1812,10 @@ def draw_finiquito_overlay(page_width, page_height, row, layout):
     }
     total_row_cfg = inventory_layout.get("total_row") if inventory_layout else {}
     if isinstance(total_row_cfg, dict) and total_row_cfg:
-        inventory_total_y = safe_float(total_row_cfg.get("y_pt"), 513.11)
+        inventory_total_y = safe_float(total_row_cfg.get("y_pt"), 403.00)
         inventory_total_white = bool(total_row_cfg.get("white_text", True))
     else:
-        inventory_total_y = 513.11
+        inventory_total_y = 403.00
         inventory_total_white = True
     for suffix in inventory_suffixes:
         total_field_name = inventory_total_field_lookup.get(suffix)
