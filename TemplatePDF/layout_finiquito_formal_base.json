@@ -244,35 +244,35 @@
     "max_width_pt": 54,
     "columns": {
       "ANTERIOR": {
-        "right_x_pt": 314.95
+        "right_x_pt": 308.95
       },
       "MENSUAL": {
-        "right_x_pt": 375.47
+        "right_x_pt": 370.47
       },
       "ACUM": {
-        "right_x_pt": 435.99
+        "right_x_pt": 431.50
       },
       "RECUP": {
-        "right_x_pt": 496.51
+        "right_x_pt": 494.51
       },
       "SALDO": {
         "right_x_pt": 557.03
       }
     },
     "rows": {
-      "ANTICIPO_COMISION_FIJA_MES_CORRIENTE": {
-        "y_pt": 473.61
-      },
-      "ANTICIPO_COMISION_PAGO_A_TERCEROS": {
-        "y_pt": 465.13
-      },
-      "DIFERENCIA_DE_DEPOSITOS": {
-        "y_pt": 456.4
-      },
-      "OTROS_ANTICIPOS": {
-        "y_pt": 447.66
-      }
-    },
+  "ANTICIPO_COMISION_FIJA_MES_CORRIENTE": {
+    "y_pt": 348.50
+  },
+  "ANTICIPO_COMISION_PAGO_A_TERCEROS": {
+    "y_pt": 339.27
+  },
+  "DIFERENCIA_DE_DEPOSITOS": {
+    "y_pt": 330.03
+  },
+  "OTROS_ANTICIPOS": {
+    "y_pt": 320.8
+  }
+  },
     "total_row": {
       "y_pt": 439.18,
       "white_text": true
