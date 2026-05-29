@@ -2624,25 +2624,25 @@ def draw_finiquito_overlay(page_width, page_height, row, layout):
         "RETENCION_IMPUESTOS_NOMINA": 2.0,
     }
     fallback_discount_y = {
-        0: 310.0,
-        1: 301.5,
-        2: 293.0,
-        3: 284.5,
-        4: 276.0,
-        5: 267.6,
-        6: 252.8,
-        7: 244.3,
-        8: 235.8,
-        9: 226.8,
-        10: 211.3,
-        11: 199.4,
-        12: 188.7,
-        13: 180.2,
-        14: 171.8,
-        15: 163.3,
-        16: 154.9,
-        17: 146.4,
-        18: 137.4,
+        0: 251.6,
+        1: 243.4,
+        2: 235.2,
+        3: 227,
+        4: 218.8,
+        5: 210.6,
+        6: 202.4,
+        7: 194.2,
+        8: 186,
+        9: 177.4,
+        10: 168.1,
+        11: 159.1, #
+        12: 153,
+        13: 144.8,
+        14: 136.6,
+        15: 128.4,
+        16: 120.2,
+        17: 112,
+        18: 103.8,
     }
     discounts_totals = {suffix: 0.0 for suffix in ("ANTERIOR", "MENSUAL", "ACUM", "RECUP", "SALDO")}
     for row_index, (row_key, values_by_suffix) in enumerate(discounts_rows):
@@ -2654,7 +2654,7 @@ def draw_finiquito_overlay(page_width, page_height, row, layout):
             discounts_totals[suffix] += value
             draw_right_currency(pdf_canvas, discounts_column_right_x[suffix], row_y, value, font_name="Helvetica", font_size=discounts_font_size, max_width=discounts_max_width)
 
-    discounts_total_y = safe_float(((discounts_layout.get("total_row") or {}).get("y_pt") if isinstance(discounts_layout, dict) else None), 128.9)
+    discounts_total_y = safe_float(((discounts_layout.get("total_row") or {}).get("y_pt") if isinstance(discounts_layout, dict) else None), 94)
     discounts_total_y += discounts_row_y_offset_pt
     discounts_total_white = bool((discounts_layout.get("total_row") or {}).get("white_text", True)) if isinstance(discounts_layout, dict) else True
     total_anticipos_values = {
@@ -2682,8 +2682,8 @@ def draw_finiquito_overlay(page_width, page_height, row, layout):
     totals_rows_layout = totals_layout.get("rows") if totals_layout else {}
     total_a_pagar_cfg = totals_rows_layout.get("TOTAL_A_PAGAR", {}) if isinstance(totals_rows_layout, dict) else {}
     flujo_cfg = totals_rows_layout.get("FLUJO_MENSUAL", {}) if isinstance(totals_rows_layout, dict) else {}
-    total_a_pagar_y = safe_float(total_a_pagar_cfg.get("y_pt"), 120.00) if total_a_pagar_cfg else 120.00
-    flujo_mensual_y = safe_float(flujo_cfg.get("y_pt"), 109.00) if flujo_cfg else 109.00
+    total_a_pagar_y = safe_float(total_a_pagar_cfg.get("y_pt"), 82.6) if total_a_pagar_cfg else 82.6
+    flujo_mensual_y = safe_float(flujo_cfg.get("y_pt"), 70.4) if flujo_cfg else 70.4
     draw_right_currency(
         pdf_canvas,
         totals_right_x,
