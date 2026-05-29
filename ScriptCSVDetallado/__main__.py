@@ -606,7 +606,7 @@ if __name__ == "__main__":
                                     S."COMISIONID",
                                     'MPL-' || S."CRPLAZA" AS PLAZA,
                                     'TIE-' || S."CRPLAZA" || S."CRTIENDA" || '(' || S."DESCTIENDA" || ')' AS TIENDA,
-                                    'DIS-' || S."CRDISTRITO",
+                                    'DIS-' || S."CRDISTRITO" AS CRDISTRITO,
                                     S."FECHAINICIAL",
                                     S."FECHAFINAL",
                                     periodo.MES AS MES,
