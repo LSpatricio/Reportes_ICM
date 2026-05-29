@@ -1964,11 +1964,11 @@ def draw_finiquito_overlay(page_width, page_height, row, layout):
     if is_layout_block_enabled(signature_name_cfg, default=True):
         draw_center_text(
             pdf_canvas,
-            safe_float(signature_name_cfg.get("center_x_pt"), 300.0),
-            safe_float(signature_name_cfg.get("y_pt"), 345.0),
+            safe_float(signature_name_cfg.get("center_x_pt"), 295.0),
+            safe_float(signature_name_cfg.get("y_pt"),214),
             normalize_single_line_text(get_row_value(row, "NOMBRECOMISIONISTA")),
             font_name=str(signature_name_cfg.get("font_name") or "Helvetica"),
-            font_size=parse_float(signature_name_cfg.get("font_size"), 7.3),
+            font_size=parse_float(signature_name_cfg.get("font_size"), 8.4),
             max_width=safe_float(signature_name_cfg.get("max_width_pt"), 260),
             trim_overflow=True,
             shrink_to_fit=True
