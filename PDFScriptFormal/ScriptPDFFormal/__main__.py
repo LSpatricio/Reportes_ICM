@@ -44,6 +44,8 @@ projectRoot = os.path.dirname(scriptsRoot)
 runtimeBaseDir = get_runtime_base_dir()
 runtimeScriptsRoot = os.path.dirname(runtimeBaseDir)
 runtimeProjectRoot = os.path.dirname(runtimeScriptsRoot)
+rootDir = os.path.dirname(projectRoot)
+
 
 # Resuelve la carpeta Data más adecuada según el contexto de ejecución.
 def get_runtime_data_dir():
@@ -95,6 +97,7 @@ dataDir = resolve_runtime_dir([
     os.path.join(scriptDir, "Data"),
     os.path.join(runtimeProjectRoot, "Data"),
     os.path.join(projectRoot, "Data"),
+    os.path.join(rootDir, "Data"),
 ])
 templateDir = resolve_runtime_dir([
     os.path.join(runtimeBaseDir, "TemplatePDF"),
@@ -109,13 +112,17 @@ processDir = resolve_runtime_dir([
     os.path.join(runtimeScriptsRoot, "Settings"),
     os.path.join(scriptDir, "Settings"),
     os.path.join(scriptsRoot, "Settings"),
+    os.path.join(projectRoot, "Settings"),
+
 ])
 configDir = resolve_runtime_dir([
     os.path.join(runtimeBaseDir, "Settings"),
     os.path.join(runtimeScriptsRoot, "Settings"),
     os.path.join(scriptDir, "Settings"),
     os.path.join(scriptsRoot, "Settings"),
+    os.path.join(projectRoot, "Settings"),
 ])
+
 
 # Identificadores y archivos principales del proceso.
 SCRIPT_NAME="PDFScriptFormal"
@@ -141,7 +148,7 @@ if not os.path.exists(os.path.join(scriptsRoot, ".env")):
 else:
     dotenv_path = os.path.join(scriptsRoot, ".env")
 load_dotenv(dotenv_path)
-
+load_dotenv()
 
 
 class batchPDF(Exception):
