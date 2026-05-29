@@ -348,6 +348,8 @@ def get_spanish_month_name_from_date(value):
         12: "Diciembre",
     }[date_value.month]
 
+def obtener_anio_periodo(periodo):
+    return periodo.split("-")[0]
 
 def format_spanish_datetime(value=None):
     date_value = value if isinstance(value, datetime) else datetime.now()
@@ -1706,9 +1708,9 @@ def draw_finiquito_overlay(page_width, page_height, row, layout):
     fecha_reporte_pos = header_field_position("FECHA_REPORTE", 404.95, 778.31, 145)
     """
 
-
     tiendaDetalle= re.match(r"^(.*?)\((.*?)\)$",get_row_value(row, "tienda"))
     
+    mes_anio = f"{get_spanish_month_name_from_date( get_row_value(row, "FECHAINICIAL"))} del año {obtener_anio_periodo(get_row_value(row, "mes"))}"
         # 123.41 y 763.05 (y-33(menos es izquierda), x+10.75(mas es subir))
     # Arreglado
     mes_pos = header_field_position("MES", 74, 762, 110)
@@ -1732,6 +1734,8 @@ def draw_finiquito_overlay(page_width, page_height, row, layout):
     fecha_inicio_pos = header_field_position("FECHAINICIAL", 243, 765.8, 270)
     fecha_fin_pos = header_field_position("FECHAFINAL", 290, 765.8, 270)
 
+
+
     header_font_size = parse_float(header_layout.get("font_size"), 6.2) if header_layout else 6.2
 
     draw_text(pdf_canvas, mes_pos["x"], mes_pos["y"], get_row_value(row, "mes"), font_size=header_font_size, max_width=mes_pos["width"], trim_overflow=True, shrink_to_fit=False)
@@ -1749,6 +1753,7 @@ def draw_finiquito_overlay(page_width, page_height, row, layout):
     draw_text(pdf_canvas, rfc_pos["x"], rfc_pos["y"], get_row_value(row, "RFC"), font_size=header_font_size, max_width=rfc_pos["width"], trim_overflow=True, shrink_to_fit=False)
     draw_text(pdf_canvas, fecha_inicio_pos["x"], fecha_inicio_pos["y"], get_row_value(row, "FECHAINICIAL"), font_size=header_font_size, max_width=fecha_inicio_pos["width"], trim_overflow=True, shrink_to_fit=False)
     draw_text(pdf_canvas, fecha_fin_pos["x"], fecha_fin_pos["y"], get_row_value(row, "FECHAFINAL"), font_size=header_font_size, max_width=fecha_fin_pos["width"], trim_overflow=True, shrink_to_fit=False)
+    draw_text(pdf_canvas, fecha_fin_pos["x"], fecha_fin_pos["y"], mes_anio, font_size=header_font_size, max_width=fecha_fin_pos["width"], trim_overflow=True, shrink_to_fit=False)
 
 
 
@@ -1978,8 +1983,8 @@ def draw_finiquito_overlay(page_width, page_height, row, layout):
     if is_layout_block_enabled(signature_amount_cfg, default=True):
         draw_text(
             pdf_canvas,
-            safe_float(signature_amount_cfg.get("x_pt"), 330.0),
-            safe_float(signature_amount_cfg.get("y_pt"), 326.5),
+            safe_float(signature_amount_cfg.get("x_pt"), 201.0),
+            safe_float(signature_amount_cfg.get("y_pt"), 166.6),
             get_signature_total_amount(row),
             font_name=str(signature_amount_cfg.get("font_name") or "Helvetica"),
             font_size=parse_float(signature_amount_cfg.get("font_size"), 5.6),
@@ -1987,6 +1992,20 @@ def draw_finiquito_overlay(page_width, page_height, row, layout):
             trim_overflow=True,
             shrink_to_fit=True
         )
+
+    mes_anio_cfg = (signature_layout.get("image_name") or {}) if signature_layout else {}
+    if is_layout_block_enabled(mes_anio_cfg, default=True):
+        draw_center_text(
+            pdf_canvas,
+            safe_float(mes_anio_cfg.get("center_x_pt"), 457.5),
+            safe_float(mes_anio_cfg.get("y_pt"),167.5),
+            mes_anio,
+            font_name=str(mes_anio_cfg.get("font_name") or "Helvetica"),
+            font_size=parse_float(mes_anio_cfg.get("font_size"), 5.6),
+            max_width=safe_float(mes_anio_cfg.get("max_width_pt"), 80),
+            trim_overflow=True,
+            shrink_to_fit=True
+        )    
     pdf_canvas.save()
     packet.seek(0)
     return packet
