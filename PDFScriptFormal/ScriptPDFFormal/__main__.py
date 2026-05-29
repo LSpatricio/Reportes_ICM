@@ -1753,14 +1753,14 @@ def draw_finiquito_overlay(page_width, page_height, row, layout):
     inventory_suffixes = ["ANTERIOR", "MENSUAL", "ACUMULAD", "FACTURAD", "NOFAC", "SALDO"]
     inventory_row_prefixes = ["MERMAMCIACERO", "MERMAMCIAEXENTA", "MERMAMCIACONSIG", "MERMAMCIAGRAVAD", "MERMASUBTOTAL", "MERMAIVA", "MERMAIMPESTATAL", "MERMAIEPS"]
     inventory_row_y_pt = {
-        "MERMAMCIACERO":    300.00,
-        "MERMAMCIAEXENTA":  300.00,
-        "MERMAMCIACONSIG":  300.00,
-        "MERMAMCIAGRAVAD":  300.00,
-        "MERMASUBTOTAL":    300.00,
-        "MERMAIVA":         300.00,
-        "MERMAIMPESTATAL":  300.00,
-        "MERMAIEPS":        300.00,
+        "MERMAMCIACERO":    499.00,
+        "MERMAMCIAEXENTA":  488.00,
+        "MERMAMCIACONSIG":  476.00,
+        "MERMAMCIAGRAVAD":  464.00,
+        "MERMASUBTOTAL":    452.00,
+        "MERMAIVA":         440.00,
+        "MERMAIMPESTATAL":  429.00,
+        "MERMAIEPS":        417.00,
     }
     inventory_field_suffix_lookup = {
         "ANTERIOR": "ANTERIOR",
