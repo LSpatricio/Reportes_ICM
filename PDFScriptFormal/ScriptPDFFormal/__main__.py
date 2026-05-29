@@ -1711,26 +1711,26 @@ def draw_finiquito_overlay(page_width, page_height, row, layout):
     
         # 123.41 y 763.05 (y-33(menos es izquierda), x+10.75(mas es subir))
     # Arreglado
-    mes_pos = header_field_position("MES", 90.41, 773.80, 110)
+    mes_pos = header_field_position("MES", 74, 762, 110)
 
     # Arreglado
-    plaza_pos = header_field_position("PLAZA", 123.41-33, 749.50+12.85, 140)
-    distrito_pos = header_field_position("CRDISTRITO", 123.41-33, 741.13+12.85, 150)
-    tienda_pos = header_field_position("TIENDA", 123.41-33, 732.75+12.35, 185)
-    nombreTienda_pos = header_field_position("NOMBRETIENDA", 123.41-33, 732.75+12.35, 185)
+    plaza_pos = header_field_position("PLAZA", 74, 749.5, 210)
+    distrito_pos = header_field_position("CRDISTRITO", 74, 740, 230)
+    tienda_pos = header_field_position("TIENDA", 74,  727.7, 250)
+    nombreTienda_pos = header_field_position("NOMBRETIENDA", 74,  717.7, 250)
 
     # Arreglado
-    comisionista_pos = header_field_position("NOMBRECOMISIONISTA", 240.0, 763.38, 235)
+    comisionista_pos = header_field_position("NOMBRECOMISIONISTA", 238, 740.7, 270)
     
     ultimo_calculo_pos = header_field_position("ULTIMO_CALCULO", 404.95, 785.90, 145)
 
     fecha_reporte_pos = header_field_position("FECHA_REPORTE", 404.95, 778.20, 145)
 
     # Arreglado
-    rfc_pos = header_field_position("RFC", 90.41, 773.80, 110)
+    rfc_pos = header_field_position("RFC",210, 727.7, 270)
 
-    fecha_inicio_pos = header_field_position("FECHAINICIAL", 202.50+55, 776.0, 38)
-    fecha_fin_pos = header_field_position("FECHAFINAL", 256.50+55, 776.0, 38)
+    fecha_inicio_pos = header_field_position("FECHAINICIAL", 243, 765.8, 270)
+    fecha_fin_pos = header_field_position("FECHAFINAL", 290, 765.8, 270)
 
     header_font_size = parse_float(header_layout.get("font_size"), 6.2) if header_layout else 6.2
 
