@@ -603,9 +603,9 @@ def run_process():
                         )
                         SELECT
                             S."COMISIONID",
-                            'PLA-' || S."CRPLAZA" AS PLAZA,
+                            'MPL-' || S."CRPLAZA" AS PLAZA,
                             'TIE-' || S."CRPLAZA" || S."CRTIENDA" || '(' || S."DESCTIENDA" || ')' AS TIENDA,
-                            S."CRDISTRITO",
+                            'DIS-' ||S."CRDISTRITO" AS "CRDISTRITO",
                             S."FECHAINICIAL",
                             S."FECHAFINAL",
                             periodo.MES AS MES,

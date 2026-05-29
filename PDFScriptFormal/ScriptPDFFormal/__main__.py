@@ -297,6 +297,12 @@ def safe_float(value, default=0.0):
     except (TypeError, ValueError):
         return default
 
+def get_first_row_value(row, keys, default=""):
+    for key in keys:
+        value = get_row_value(row, key, None)
+        if value not in (None, ""):
+            return value
+    return default
 
 def sum_row_fields(row, field_names):
     total = 0.0
@@ -1756,8 +1762,8 @@ def draw_finiquito_overlay(page_width, page_height, row, layout):
     #draw_text(pdf_canvas, comisionista_pos["x"], comisionista_pos["y"], build_header_comisionista_text(row), font_size=header_font_size, max_width=comisionista_pos["width"], trim_overflow=True, shrink_to_fit=False)
     draw_text(pdf_canvas, comisionista_pos["x"], comisionista_pos["y"], get_row_value(row,"NOMBRECOMISIONISTA"), font_size=header_font_size, max_width=comisionista_pos["width"], trim_overflow=True, shrink_to_fit=False)
     draw_text(pdf_canvas, rfc_pos["x"], rfc_pos["y"], get_row_value(row, "RFC"), font_size=header_font_size, max_width=rfc_pos["width"], trim_overflow=True, shrink_to_fit=False)
-    draw_text(pdf_canvas, fecha_inicio_pos["x"], fecha_inicio_pos["y"], get_row_value(row, "FECHAINICIAL"), font_size=header_font_size, max_width=fecha_inicio_pos["width"], trim_overflow=True, shrink_to_fit=False)
-    draw_text(pdf_canvas, fecha_fin_pos["x"], fecha_fin_pos["y"], get_row_value(row, "FECHAFINAL"), font_size=header_font_size, max_width=fecha_fin_pos["width"], trim_overflow=True, shrink_to_fit=False)
+    draw_text(pdf_canvas, fecha_inicio_pos["x"], fecha_inicio_pos["y"],  format_date_value(get_first_row_value(row, ["FechaInicio", "FECHAINICIO", "FECHAINICIAL"])), font_size=header_font_size, max_width=fecha_inicio_pos["width"], trim_overflow=True, shrink_to_fit=False)
+    draw_text(pdf_canvas, fecha_fin_pos["x"], fecha_fin_pos["y"], format_date_value(get_first_row_value(row, ["FechaFin", "FECHAFIN", "FECHAFINAL"])), font_size=header_font_size, max_width=fecha_fin_pos["width"], trim_overflow=True, shrink_to_fit=False)
 
 
 
