@@ -2436,8 +2436,8 @@ def generate_pdfs_from_csv_template(scriptConfig, arg1, preserve_generated_files
     #     send_local_template_email(output_path, ["dsuazo@exsoinf.com"])
 
     email_recipient = str(
-        get_config_value(config_section, "LOCAL_TEMPLATE_EMAIL_TO", "lpatricio@exsoinf.com")
-    ).strip() or "lpatricio@exsoinf.com"
+        get_config_value(config_section, "LOCAL_TEMPLATE_EMAIL_TO", "dsuazo@exsoinf.com")
+    ).strip() or "dsuazo@exsoinf.com"
     generated_files = []
 
     for index, (district_key, district_rows) in enumerate(grouped_rows, start=1):
@@ -2462,7 +2462,7 @@ def generate_pdfs_from_csv_template(scriptConfig, arg1, preserve_generated_files
             f"({len(district_rows)} pagina(s) / registro(s) para CRDISTRITO={district_key})"
         )
         
-        """try:
+        try:
             sent, detail = send_local_template_email(output_path, email_recipient)
             if sent:
                 print(f"[LOCAL_TEMPLATE] Correo enviado a {email_recipient}: {output_path}")
@@ -2475,7 +2475,7 @@ def generate_pdfs_from_csv_template(scriptConfig, arg1, preserve_generated_files
             else:
                 print(f"[LOCAL_TEMPLATE] Correo omitido para {output_path}: {detail}")
         except Exception as exc:
-            print(f"[LOCAL_TEMPLATE] No se pudo enviar correo para {output_path}: {exc}")"""
+            print(f"[LOCAL_TEMPLATE] No se pudo enviar correo para {output_path}: {exc}")
 
     return generated_files
 
