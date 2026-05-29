@@ -137,22 +137,22 @@
         "y_pt": 653.06
       },
       "comisionvariable": {
-        "y_pt": 640.50
+        "y_pt": 629.50
       },
       "subtotalcomision": {
-        "y_pt": 629.00
-      },
-      "ivasubtotalcomision": {
         "y_pt": 617.00
       },
-      "retenciondosterciosiva": {
+      "ivasubtotalcomision": {
         "y_pt": 605.00
       },
-      "retencionisr": {
+      "retenciondosterciosiva": {
         "y_pt": 593.00
       },
-      "impcedular": {
+      "retencionisr": {
         "y_pt": 582.00
+      },
+      "impcedular": {
+        "y_pt": 571.00
       },
       "totalcomision": {
         "y_pt": 558.00
