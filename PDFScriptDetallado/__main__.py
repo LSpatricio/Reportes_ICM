@@ -2304,15 +2304,15 @@ def draw_finiquito_overlay(page_width, page_height, row, layout):
             }
         return {"x": fallback_x, "y": fallback_y, "width": fallback_width}
 
-    mes_pos = header_field_position("MES", 123.41, 763.05, 110)
-    plaza_pos = header_field_position("PLAZA", 123.41, 749.50, 140)
-    distrito_pos = header_field_position("CRDISTRITO", 123.41, 741.13, 150)
-    tienda_pos = header_field_position("TIENDA", 123.41, 732.75, 185)
-    comisionista_pos = header_field_position("NOMBRECOMISIONISTA", 123.41, 724.38, 235)
-    ultimo_calculo_pos = header_field_position("ULTIMO_CALCULO", 404.95, 785.90, 145)
-    fecha_reporte_pos = header_field_position("FECHA_REPORTE", 404.95, 778.20, 145)
-    fecha_inicio_pos = header_field_position("FECHAINICIO", 402.50, 766.15, 38)
-    fecha_fin_pos = header_field_position("FECHAFIN", 456.50, 766.15, 38)
+    mes_pos = header_field_position("MES", 90.41, 773.80, 110)
+    plaza_pos = header_field_position("PLAZA", 90.41, 762.35, 140)
+    distrito_pos = header_field_position("CRDISTRITO", 90.41, 753.98, 150)
+    tienda_pos = header_field_position("TIENDA", 90.41, 745.1, 185)
+    desc_tienda_pos = header_field_position("", 90.41, 737.1, 185)
+    comisionista_pos = header_field_position("NOMBRECOMISIONISTA", 240.0, 763.38, 235)
+    rfc_pos = header_field_position("", 240.0, 753.38, 235)
+    fecha_inicio_pos = header_field_position("FECHAINICIO", 257.5, 776.0, 38)
+    fecha_fin_pos = header_field_position("FECHAFIN", 311.5, 776.0, 38)
     header_font_size = parse_float(header_layout.get("font_size"), 6.2) if header_layout else 6.2
 
     # El template nuevo conserva trazos/fondo dentro de las cajas de periodo.
@@ -2326,12 +2326,12 @@ def draw_finiquito_overlay(page_width, page_height, row, layout):
     draw_text(pdf_canvas, mes_pos["x"], mes_pos["y"], get_row_value(row, "mes"), font_size=header_font_size, max_width=mes_pos["width"], trim_overflow=True)
     draw_text(pdf_canvas, plaza_pos["x"], plaza_pos["y"], get_row_value(row, "plaza"), font_size=header_font_size, max_width=plaza_pos["width"], trim_overflow=True)
     draw_text(pdf_canvas, distrito_pos["x"], distrito_pos["y"], get_row_value(row, "CRDISTRITO"), font_size=header_font_size, max_width=distrito_pos["width"], trim_overflow=True)
-    draw_text(pdf_canvas, tienda_pos["x"], tienda_pos["y"], normalize_single_line_text(get_row_value(row, "tienda")), font_size=header_font_size, max_width=tienda_pos["width"], trim_overflow=True)
-    draw_text(pdf_canvas, comisionista_pos["x"], comisionista_pos["y"], build_header_comisionista_text(row), font_size=header_font_size, max_width=comisionista_pos["width"], trim_overflow=True)
-    draw_text(pdf_canvas, ultimo_calculo_pos["x"], ultimo_calculo_pos["y"], format_spanish_datetime(current_run), font_size=header_font_size, max_width=ultimo_calculo_pos["width"], trim_overflow=True)
-    draw_text(pdf_canvas, fecha_reporte_pos["x"], fecha_reporte_pos["y"], format_spanish_date(current_run), font_size=header_font_size, max_width=fecha_reporte_pos["width"], trim_overflow=True)
+    draw_text(pdf_canvas, tienda_pos["x"], tienda_pos["y"], re.sub(r'\(.*?\)', '', normalize_single_line_text(get_row_value(row, "tienda"))), font_size=header_font_size, max_width=tienda_pos["width"], trim_overflow=True)
+    draw_text(pdf_canvas, desc_tienda_pos["x"], desc_tienda_pos["y"], normalize_single_line_text(get_row_value(row, "tienda").split('(')[1].replace(')', '')), font_size=header_font_size, max_width=tienda_pos["width"], trim_overflow=True)
+    draw_text(pdf_canvas, comisionista_pos["x"], comisionista_pos["y"], get_row_value(row, "NOMBRECOMISIONISTA"), font_size=header_font_size, max_width=comisionista_pos["width"], trim_overflow=True)
     draw_text(pdf_canvas, fecha_inicio_pos["x"], fecha_inicio_pos["y"], format_date_value(get_first_row_value(row, ["FechaInicio", "FECHAINICIO", "FECHAINICIAL"])), font_size=header_font_size, max_width=fecha_inicio_pos["width"], trim_overflow=True)
     draw_text(pdf_canvas, fecha_fin_pos["x"], fecha_fin_pos["y"], format_date_value(get_first_row_value(row, ["FechaFin", "FECHAFIN", "FECHAFINAL"])), font_size=header_font_size, max_width=fecha_fin_pos["width"], trim_overflow=True)
+    draw_text(pdf_canvas, rfc_pos["x"], rfc_pos["y"], get_row_value(row, "RFC"), font_size=header_font_size, max_width=rfc_pos["width"], trim_overflow=True)
 
     integration_right_x = safe_float(integration_layout.get("right_x_pt"), 557.03) if integration_layout else 557.03
     integration_default_max_width = safe_float(integration_layout.get("default_max_width_pt"), 80) if integration_layout else 80
@@ -2397,13 +2397,13 @@ def draw_finiquito_overlay(page_width, page_height, row, layout):
     }
     inventory_row_y_pt = {
         "MERMAMCIACERO": 424.59,
-        "MERMAMCIAEXENTA": 414.97,
-        "MERMAMCIACONSIG": 405.59,
-        "MERMAMCIAGRAVAD": 396.17,
-        "MERMASUBTOTAL": 386.71,
-        "MERMAIVA": 377.29,
-        "MERMAIMPESTATAL": 367.90,
-        "MERMAIEPS": 358.48,
+        "MERMAMCIAEXENTA": 413.97,
+        "MERMAMCIACONSIG": 402.59,
+        "MERMAMCIAGRAVAD": 391.17,
+        "MERMASUBTOTAL": 379.71,
+        "MERMAIVA": 369.29,
+        "MERMAIMPESTATAL": 357.90,
+        "MERMAIEPS": 347.48,
     }
     inventory_field_suffix_lookup = {
         "ANTERIOR": "ANTERIOR",
@@ -2415,11 +2415,11 @@ def draw_finiquito_overlay(page_width, page_height, row, layout):
     }
     inventory_columns = inventory_layout.get("columns") if inventory_layout else {}
     inventory_column_right_x = {
-        "ANTERIOR": safe_float(((inventory_columns.get("ANTERIOR") or {}).get("right_x_pt") if isinstance(inventory_columns, dict) else None), 263.43),
-        "MENSUAL": safe_float(((inventory_columns.get("MENSUAL") or {}).get("right_x_pt") if isinstance(inventory_columns, dict) else None), 322.15),
+        "ANTERIOR": safe_float(((inventory_columns.get("ANTERIOR") or {}).get("right_x_pt") if isinstance(inventory_columns, dict) else None), 258.43),
+        "MENSUAL": safe_float(((inventory_columns.get("MENSUAL") or {}).get("right_x_pt") if isinstance(inventory_columns, dict) else None), 328.15),
         "ACUMULAD": safe_float(((inventory_columns.get("ACUMULAD") or {}).get("right_x_pt") if isinstance(inventory_columns, dict) else None), 380.87),
         "FACTURAD": safe_float(((inventory_columns.get("FACTURAD") or {}).get("right_x_pt") if isinstance(inventory_columns, dict) else None), 439.59),
-        "NOFAC": safe_float(((inventory_columns.get("NOFAC") or {}).get("right_x_pt") if isinstance(inventory_columns, dict) else None), 498.32),
+        "NOFAC": safe_float(((inventory_columns.get("NOFAC") or {}).get("right_x_pt") if isinstance(inventory_columns, dict) else None), 488.32),
         "SALDO": safe_float(((inventory_columns.get("SALDO") or {}).get("right_x_pt") if isinstance(inventory_columns, dict) else None), 557.03),
     }
     inventory_rows_layout = inventory_layout.get("rows") if inventory_layout else {}
@@ -2444,8 +2444,8 @@ def draw_finiquito_overlay(page_width, page_height, row, layout):
                 field_name = "MERMAIEPS_ACUMULADA"
             value = get_numeric_field_or_rdl(layout, row, field_name)
             inventory_totals[suffix] += value
-            draw_right_currency(pdf_canvas, inventory_column_right_x[suffix], row_y, value, font_name="Helvetica", font_size=inventory_font_size, max_width=inventory_max_width)
-
+            row_general_y = row_y-43.00               
+            draw_right_currency(pdf_canvas, inventory_column_right_x[suffix], row_general_y, value, font_name="Helvetica", font_size=inventory_font_size, max_width=inventory_max_width)
     inventory_total_field_lookup = {
         "ANTERIOR": "MERMATOTAL_ANTERIOR",
         "MENSUAL": "MERMATOTAL_MENSUAL",
@@ -2459,10 +2459,11 @@ def draw_finiquito_overlay(page_width, page_height, row, layout):
     for suffix in inventory_suffixes:
         total_field_name = inventory_total_field_lookup.get(suffix)
         total_value = get_numeric_field_or_rdl(layout, row, total_field_name) if total_field_name else 0.0
+        row_general_total_y = inventory_total_y-56.00
         draw_right_currency(
             pdf_canvas,
             inventory_column_right_x[suffix],
-            inventory_total_y,
+            row_general_total_y,
             total_value,
             font_name="Helvetica-Bold",
             font_size=inventory_total_font_size,
