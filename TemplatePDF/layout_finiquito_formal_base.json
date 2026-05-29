@@ -78,9 +78,9 @@
     "font_size": 6.2,
     "fields": {
       "MES": {
-        "x_pt": 123.41,
-        "y_pt": 767.47,
-        "max_width_pt": 150,
+        "x_pt":  74,
+        "y_pt": 762,
+        "max_width_pt": 110,
         "align": "left"
       },
       "ULTIMO_CALCULO": {
@@ -96,26 +96,50 @@
         "align": "left"
       },
       "PLAZA": {
-        "x_pt": 123.41,
-        "y_pt": 759.09,
+        "x_pt": 74,
+        "y_pt": 749.5,
         "max_width_pt": 210,
         "align": "left"
       },
       "CRDISTRITO": {
-        "x_pt": 123.41,
-        "y_pt": 750.72,
+        "x_pt": 74,
+        "y_pt": 740,
         "max_width_pt": 230,
         "align": "left"
       },
       "TIENDA": {
-        "x_pt": 123.41,
-        "y_pt": 742.35,
+        "x_pt": 74,
+        "y_pt": 727.7,
+        "max_width_pt": 250,
+        "align": "left"
+      },
+       "NOMBRETIENDA": {
+        "x_pt": 74,
+        "y_pt": 717.7,
         "max_width_pt": 250,
         "align": "left"
       },
       "NOMBRECOMISIONISTA": {
-        "x_pt": 123.41,
-        "y_pt": 733.97,
+        "x_pt": 238,
+        "y_pt": 740.7,
+        "max_width_pt": 270,
+        "align": "left"
+      },
+      "RFC": {
+        "x_pt": 210,
+        "y_pt": 727.7,
+        "max_width_pt": 270,
+        "align": "left"
+      },
+      "FECHAINICIAL": {
+        "x_pt": 243,
+        "y_pt":765.8,
+        "max_width_pt": 270,
+        "align": "left"
+      },
+      "FECHAFINAL": {
+        "x_pt": 290,
+        "y_pt": 765.8,
         "max_width_pt": 270,
         "align": "left"
       }
@@ -220,35 +244,35 @@
     "max_width_pt": 54,
     "columns": {
       "ANTERIOR": {
-        "right_x_pt": 314.95
+        "right_x_pt": 308.95
       },
       "MENSUAL": {
-        "right_x_pt": 375.47
+        "right_x_pt": 370.47
       },
       "ACUM": {
-        "right_x_pt": 435.99
+        "right_x_pt": 431.50
       },
       "RECUP": {
-        "right_x_pt": 496.51
+        "right_x_pt": 494.51
       },
       "SALDO": {
         "right_x_pt": 557.03
       }
     },
     "rows": {
-      "ANTICIPO_COMISION_FIJA_MES_CORRIENTE": {
-        "y_pt": 473.61
-      },
-      "ANTICIPO_COMISION_PAGO_A_TERCEROS": {
-        "y_pt": 465.13
-      },
-      "DIFERENCIA_DE_DEPOSITOS": {
-        "y_pt": 456.4
-      },
-      "OTROS_ANTICIPOS": {
-        "y_pt": 447.66
-      }
-    },
+  "ANTICIPO_COMISION_FIJA_MES_CORRIENTE": {
+    "y_pt": 348.50
+  },
+  "ANTICIPO_COMISION_PAGO_A_TERCEROS": {
+    "y_pt": 339.27
+  },
+  "DIFERENCIA_DE_DEPOSITOS": {
+    "y_pt": 330.03
+  },
+  "OTROS_ANTICIPOS": {
+    "y_pt": 320.8
+  }
+  },
     "total_row": {
       "y_pt": 439.18,
       "white_text": true
@@ -260,10 +284,10 @@
     "right_x_pt": 557.03,
     "rows": {
       "TOTAL_A_PAGAR": {
-        "y_pt": 428.59
+        "y_pt": 298.79
       },
       "FLUJO_MENSUAL": {
-        "y_pt": 417.85
+        "y_pt": 283.79
       }
     }
   },

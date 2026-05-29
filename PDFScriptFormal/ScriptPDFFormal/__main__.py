@@ -352,6 +352,8 @@ def get_spanish_month_name_from_date(value):
         12: "Diciembre",
     }[date_value.month]
 
+def obtener_anio_periodo(periodo):
+    return periodo.split("-")[0]
 
 def format_spanish_datetime(value=None):
     date_value = value if isinstance(value, datetime) else datetime.now()
@@ -1701,24 +1703,63 @@ def draw_finiquito_overlay(page_width, page_height, row, layout):
                 "width": safe_float(field_cfg.get("max_width_pt"), fallback_width),
             }
         return {"x": fallback_x, "y": fallback_y, "width": fallback_width}
-
-    mes_pos = header_field_position("MES", 123.41, 767.47, 150)
-    plaza_pos = header_field_position("PLAZA", 123.41, 759.09, 210)
-    distrito_pos = header_field_position("CRDISTRITO", 123.41, 750.72, 230)
-    tienda_pos = header_field_position("TIENDA", 123.41, 742.35, 250)
-    comisionista_pos = header_field_position("NOMBRECOMISIONISTA", 123.41, 733.97, 270)
+    """
+    mes_pos = header_field_position("MES", 1,790, 150)
+    plaza_pos = header_field_position("PLAZA", 60, 749.5, 210)
+    distrito_pos = header_field_position("CRDISTRITO", 55, 739.5, 230)
+    tienda_pos = header_field_position("TIENDA", 78, 727, 250)
+    comisionista_pos = header_field_position("NOMBRECOMISIONISTA", 240, 739.8, 270)
     ultimo_calculo_pos = header_field_position("ULTIMO_CALCULO", 404.95, 786.01, 145)
     fecha_reporte_pos = header_field_position("FECHA_REPORTE", 404.95, 778.31, 145)
+    """
+
+    tiendaDetalle= re.match(r"^(.*?)\((.*?)\)$",get_row_value(row, "tienda"))
+    
+    mes_anio = f"{get_spanish_month_name_from_date( get_row_value(row, "FECHAINICIAL"))} del año {obtener_anio_periodo(get_row_value(row, "mes"))}"
+        # 123.41 y 763.05 (y-33(menos es izquierda), x+10.75(mas es subir))
+    # Arreglado
+    mes_pos = header_field_position("MES", 74, 762, 110)
+
+    # Arreglado
+    plaza_pos = header_field_position("PLAZA", 74, 749.5, 210)
+    distrito_pos = header_field_position("CRDISTRITO", 74, 740, 230)
+    tienda_pos = header_field_position("TIENDA", 74,  727.7, 250)
+    nombreTienda_pos = header_field_position("NOMBRETIENDA", 74,  717.7, 250)
+
+    # Arreglado
+    comisionista_pos = header_field_position("NOMBRECOMISIONISTA", 238, 740.7, 270)
+    
+    ultimo_calculo_pos = header_field_position("ULTIMO_CALCULO", 404.95, 785.90, 145)
+
+    fecha_reporte_pos = header_field_position("FECHA_REPORTE", 404.95, 778.20, 145)
+
+    # Arreglado
+    rfc_pos = header_field_position("RFC",210, 727.7, 270)
+
+    fecha_inicio_pos = header_field_position("FECHAINICIAL", 243, 765.8, 270)
+    fecha_fin_pos = header_field_position("FECHAFINAL", 290, 765.8, 270)
+
+
 
     header_font_size = parse_float(header_layout.get("font_size"), 6.2) if header_layout else 6.2
 
     draw_text(pdf_canvas, mes_pos["x"], mes_pos["y"], get_row_value(row, "mes"), font_size=header_font_size, max_width=mes_pos["width"], trim_overflow=True, shrink_to_fit=False)
-    draw_text(pdf_canvas, ultimo_calculo_pos["x"], ultimo_calculo_pos["y"], format_spanish_datetime(current_run), font_size=header_font_size, max_width=ultimo_calculo_pos["width"], trim_overflow=True, shrink_to_fit=False)
-    draw_text(pdf_canvas, fecha_reporte_pos["x"], fecha_reporte_pos["y"], format_spanish_date(current_run), font_size=header_font_size, max_width=fecha_reporte_pos["width"], trim_overflow=True, shrink_to_fit=False)
+   #draw_text(pdf_canvas, ultimo_calculo_pos["x"], ultimo_calculo_pos["y"], format_spanish_datetime(current_run), font_size=header_font_size, max_width=ultimo_calculo_pos["width"], trim_overflow=True, shrink_to_fit=False)
+    #draw_text(pdf_canvas, fecha_reporte_pos["x"], fecha_reporte_pos["y"], format_spanish_date(current_run), font_size=header_font_size, max_width=fecha_reporte_pos["width"], trim_overflow=True, shrink_to_fit=False)
     draw_text(pdf_canvas, plaza_pos["x"], plaza_pos["y"], get_row_value(row, "plaza"), font_size=header_font_size, max_width=plaza_pos["width"], trim_overflow=True, shrink_to_fit=False)
     draw_text(pdf_canvas, distrito_pos["x"], distrito_pos["y"], get_row_value(row, "CRDISTRITO"), font_size=header_font_size, max_width=distrito_pos["width"], trim_overflow=True, shrink_to_fit=False)
-    draw_text(pdf_canvas, tienda_pos["x"], tienda_pos["y"], normalize_single_line_text(get_row_value(row, "tienda")), font_size=header_font_size, max_width=tienda_pos["width"], min_size=7, trim_overflow=True, shrink_to_fit=False)
-    draw_text(pdf_canvas, comisionista_pos["x"], comisionista_pos["y"], build_header_comisionista_text(row), font_size=header_font_size, max_width=comisionista_pos["width"], trim_overflow=True, shrink_to_fit=False)
+    #draw_text(pdf_canvas, tienda_pos["x"], tienda_pos["y"], normalize_single_line_text(get_row_value(row, "tienda")), font_size=header_font_size, max_width=tienda_pos["width"], min_size=7, trim_overflow=True, shrink_to_fit=False)
+    draw_text(pdf_canvas, tienda_pos["x"], tienda_pos["y"], tiendaDetalle.group(1), font_size=header_font_size, max_width=tienda_pos["width"], min_size=7, trim_overflow=True, shrink_to_fit=False)
+    draw_text(pdf_canvas, nombreTienda_pos["x"], nombreTienda_pos["y"], tiendaDetalle.group(2), font_size=header_font_size, max_width=nombreTienda_pos["width"], min_size=7, trim_overflow=True, shrink_to_fit=False)
+
+    #draw_text(pdf_canvas, tienda_pos["x"], tienda_pos["y"], normalize_single_line_text(get_row_value(row, "tienda")), font_size=header_font_size, max_width=tienda_pos["width"], min_size=7, trim_overflow=True, shrink_to_fit=False)
+    #draw_text(pdf_canvas, comisionista_pos["x"], comisionista_pos["y"], build_header_comisionista_text(row), font_size=header_font_size, max_width=comisionista_pos["width"], trim_overflow=True, shrink_to_fit=False)
+    draw_text(pdf_canvas, comisionista_pos["x"], comisionista_pos["y"], get_row_value(row,"NOMBRECOMISIONISTA"), font_size=header_font_size, max_width=comisionista_pos["width"], trim_overflow=True, shrink_to_fit=False)
+    draw_text(pdf_canvas, rfc_pos["x"], rfc_pos["y"], get_row_value(row, "RFC"), font_size=header_font_size, max_width=rfc_pos["width"], trim_overflow=True, shrink_to_fit=False)
+    draw_text(pdf_canvas, fecha_inicio_pos["x"], fecha_inicio_pos["y"], get_row_value(row, "FECHAINICIAL"), font_size=header_font_size, max_width=fecha_inicio_pos["width"], trim_overflow=True, shrink_to_fit=False)
+    draw_text(pdf_canvas, fecha_fin_pos["x"], fecha_fin_pos["y"], get_row_value(row, "FECHAFINAL"), font_size=header_font_size, max_width=fecha_fin_pos["width"], trim_overflow=True, shrink_to_fit=False)
+
+
 
     integration_right_x = safe_float(integration_layout.get("right_x_pt"), 557.03) if integration_layout else 557.03
     integration_default_max_width = safe_float(integration_layout.get("default_max_width_pt"), 80) if integration_layout else 80
@@ -1933,11 +1974,11 @@ def draw_finiquito_overlay(page_width, page_height, row, layout):
     if is_layout_block_enabled(signature_name_cfg, default=True):
         draw_center_text(
             pdf_canvas,
-            safe_float(signature_name_cfg.get("center_x_pt"), 300.0),
-            safe_float(signature_name_cfg.get("y_pt"), 345.0),
+            safe_float(signature_name_cfg.get("center_x_pt"), 295.0),
+            safe_float(signature_name_cfg.get("y_pt"),214),
             normalize_single_line_text(get_row_value(row, "NOMBRECOMISIONISTA")),
             font_name=str(signature_name_cfg.get("font_name") or "Helvetica"),
-            font_size=parse_float(signature_name_cfg.get("font_size"), 7.3),
+            font_size=parse_float(signature_name_cfg.get("font_size"), 8.4),
             max_width=safe_float(signature_name_cfg.get("max_width_pt"), 260),
             trim_overflow=True,
             shrink_to_fit=True
@@ -1947,8 +1988,8 @@ def draw_finiquito_overlay(page_width, page_height, row, layout):
     if is_layout_block_enabled(signature_amount_cfg, default=True):
         draw_text(
             pdf_canvas,
-            safe_float(signature_amount_cfg.get("x_pt"), 330.0),
-            safe_float(signature_amount_cfg.get("y_pt"), 326.5),
+            safe_float(signature_amount_cfg.get("x_pt"), 201.0),
+            safe_float(signature_amount_cfg.get("y_pt"), 166.6),
             get_signature_total_amount(row),
             font_name=str(signature_amount_cfg.get("font_name") or "Helvetica"),
             font_size=parse_float(signature_amount_cfg.get("font_size"), 5.6),
@@ -1956,6 +1997,20 @@ def draw_finiquito_overlay(page_width, page_height, row, layout):
             trim_overflow=True,
             shrink_to_fit=True
         )
+
+    mes_anio_cfg = (signature_layout.get("image_name") or {}) if signature_layout else {}
+    if is_layout_block_enabled(mes_anio_cfg, default=True):
+        draw_center_text(
+            pdf_canvas,
+            safe_float(mes_anio_cfg.get("center_x_pt"), 457.5),
+            safe_float(mes_anio_cfg.get("y_pt"),167.5),
+            mes_anio,
+            font_name=str(mes_anio_cfg.get("font_name") or "Helvetica"),
+            font_size=parse_float(mes_anio_cfg.get("font_size"), 5.6),
+            max_width=safe_float(mes_anio_cfg.get("max_width_pt"), 80),
+            trim_overflow=True,
+            shrink_to_fit=True
+        )    
     pdf_canvas.save()
     packet.seek(0)
     return packet
@@ -2412,6 +2467,7 @@ def generate_pdfs_from_csv_template(scriptConfig, arg1, preserve_generated_files
             f"[LOCAL_TEMPLATE] PDF generado {index}/{len(grouped_rows)}: {output_path} "
             f"({len(district_rows)} pagina(s) / registro(s) para CRDISTRITO={district_key})"
         )
+        
         try:
             sent, detail = send_local_template_email(output_path, email_recipient)
             if sent:
