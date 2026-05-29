@@ -2379,10 +2379,9 @@ def generate_pdfs_from_csv_template(scriptConfig, arg1, preserve_generated_files
     # else:
     #     send_local_template_email(output_path, ["dsuazo@exsoinf.com"])
 
-    # email_recipient = str(
-    #     get_config_value(config_section, "LOCAL_TEMPLATE_EMAIL_TO", "dsuazo@exsoinf.com")
-    # ).strip() or "dsuazo@exsoinf.com"
-    email_recipient = "dsuazo@exsoinf.com"
+    email_recipient = str(
+        get_config_value(config_section, "LOCAL_TEMPLATE_EMAIL_TO", "dsuazo@exsoinf.com")
+    ).strip() or "dsuazo@exsoinf.com"
     generated_files = []
 
     for index, (district_key, district_rows) in enumerate(grouped_rows, start=1):
@@ -2412,13 +2411,12 @@ def generate_pdfs_from_csv_template(scriptConfig, arg1, preserve_generated_files
                 print(f"[LOCAL_TEMPLATE] Correo enviado a {email_recipient}: {output_path}")
                 if not preserve_generated_files and os.path.exists(output_path):
                     try:
-                        # os.remove(output_path)
+                        os.remove(output_path)
                         print(f"[LOCAL_TEMPLATE] PDF eliminado tras envio: {output_path}")
                     except Exception as exc:
                         print(f"[LOCAL_TEMPLATE] No se pudo eliminar el PDF enviado {output_path}: {exc}")
             else:
                 print(f"[LOCAL_TEMPLATE] Correo omitido para {output_path}: {detail}")
-            break ### Break para solo generar un pdf. 
         except Exception as exc:
             print(f"[LOCAL_TEMPLATE] No se pudo enviar correo para {output_path}: {exc}")
 
