@@ -131,31 +131,31 @@
     "total_max_width_pt": 85,
     "rows": {
       "comisionfija": {
-        "y_pt": 694.83
+        "y_pt": 663.56
       },
       "comisionporestructura": {
-        "y_pt": 686.35
+        "y_pt": 653.06
       },
       "comisionvariable": {
-        "y_pt": 677.87
+        "y_pt": 640.50
       },
-      "subtotalcomison": {
-        "y_pt": 669.39
+      "subtotalcomision": {
+        "y_pt": 629.00
       },
       "ivasubtotalcomision": {
-        "y_pt": 660.91
+        "y_pt": 617.00
       },
       "retenciondosterciosiva": {
-        "y_pt": 652.03
+        "y_pt": 605.00
       },
       "retencionisr": {
-        "y_pt": 643.04
+        "y_pt": 593.00
       },
       "impcedular": {
-        "y_pt": 634.45
+        "y_pt": 582.00
       },
       "totalcomision": {
-        "y_pt": 625.97
+        "y_pt": 558.00
       }
     }
   },
@@ -165,19 +165,19 @@
     "max_width_pt": 54,
     "columns": {
       "ANTERIOR": {
-        "right_x_pt": 263.43
+        "right_x_pt": 256.00
       },
       "MENSUAL": {
-        "right_x_pt": 322.15
+        "right_x_pt": 316.00
       },
       "ACUMULAD": {
-        "right_x_pt": 380.87
+        "right_x_pt": 376.00
       },
       "FACTURAD": {
-        "right_x_pt": 439.59
+        "right_x_pt": 437.00
       },
       "NOFAC": {
-        "right_x_pt": 498.32
+        "right_x_pt": 497.00
       },
       "SALDO": {
         "right_x_pt": 557.03
@@ -185,32 +185,32 @@
     },
     "rows": {
       "MERMAMCIACERO": {
-        "y_pt": 583.17
+        "y_pt": 499.00
       },
       "MERMAMCIAEXENTA": {
-        "y_pt": 574.18
+        "y_pt": 488.00
       },
       "MERMAMCIACONSIG": {
-        "y_pt": 565.7
+        "y_pt": 476.00
       },
       "MERMAMCIAGRAVAD": {
-        "y_pt": 557.21
+        "y_pt": 464.00
       },
       "MERMASUBTOTAL": {
-        "y_pt": 548.73
+        "y_pt": 452.00
       },
       "MERMAIVA": {
-        "y_pt": 540.25
+        "y_pt": 440.00
       },
       "MERMAIMPESTATAL": {
-        "y_pt": 531.77
+        "y_pt": 429.00
       },
       "MERMAIEPS": {
-        "y_pt": 522.78
+        "y_pt": 417.00
       }
     },
     "total_row": {
-      "y_pt": 513.11,
+      "y_pt": 403.00,
       "white_text": true
     }
   },
