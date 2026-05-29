@@ -506,7 +506,7 @@ if __name__ == "__main__":
         filtro_plazas_sql = "1 = 1"
         if plazas_parametro:
             plazas_sql = plazas_parametro.replace("'", "''")
-            filtro_plazas_sql = f"('PLA-' || S.\"CRPLAZA\") LIKE '%{plazas_sql}%'"
+            filtro_plazas_sql = f"('MPL-' || S.\"CRPLAZA\") LIKE '%{plazas_sql}%'"
 
         filtro_tiendas_sql = "1 = 1"
         if tiendas_parametro:
@@ -604,9 +604,9 @@ if __name__ == "__main__":
                                 )
                                 SELECT
                                     S."COMISIONID",
-                                    'PLA-' || S."CRPLAZA" AS PLAZA,
+                                    'MPL-' || S."CRPLAZA" AS PLAZA,
                                     'TIE-' || S."CRPLAZA" || S."CRTIENDA" || '(' || S."DESCTIENDA" || ')' AS TIENDA,
-                                    S."CRDISTRITO",
+                                    'DIS-' || S."CRDISTRITO",
                                     S."FECHAINICIAL",
                                     S."FECHAFINAL",
                                     periodo.MES AS MES,
@@ -865,7 +865,7 @@ if __name__ == "__main__":
                                   AND {filtro_distritos_sql}
                                   AND {filtro_plazas_sql}
                                   AND {filtro_tiendas_sql}
-                                ORDER BY 'PLA-' || S."CRPLAZA", S."CRDISTRITO", S."NOMBRECOMISIONISTA"
+                                ORDER BY 'MPL-' || S."CRPLAZA", S."CRDISTRITO", S."NOMBRECOMISIONISTA"
                             ) q
                         
         
