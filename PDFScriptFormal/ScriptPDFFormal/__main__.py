@@ -2041,9 +2041,10 @@ def draw_finiquito_overlay(page_width, page_height, row, layout):
 
 def build_output_filename(row):
     district_value = sanitize_filename(row.get("CRDISTRITO") or "SIN_DISTRITO", fallback="SIN_DISTRITO")
-    month_year_value = sanitize_filename(format_month_year_token(row), fallback="MESANIO")
-    base_name = f"{district_value}_{month_year_value}"
-    return base_name + ".pdf"
+    #month_year_value = sanitize_filename(format_month_year_token(row), fallback="MESANIO")
+    periodo= sanitize_filename(get_row_value(row, "mes"), fallback="MESANIO")
+    base_name = f"FINIQUITO_{district_value}_{periodo}.pdf"
+    return base_name
 
 
 def cleanup_generated_pdfs(output_dir):
