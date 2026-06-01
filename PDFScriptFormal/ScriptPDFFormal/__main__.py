@@ -946,7 +946,7 @@ def send_local_template_email(pdf_path, recipient):
         "model": model,
     }
     payload = {
-        "to": [recipient],
+        "to": recipient,
         "cc": [],
         "subject": f"PDF Formal - Finiquito generado - {pdf_name}",
         "body": (
