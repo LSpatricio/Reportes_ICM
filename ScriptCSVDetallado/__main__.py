@@ -612,7 +612,7 @@ if __name__ == "__main__":
                                     periodo.MES AS MES,
                                     periodo.MesEsp AS MesEsp,
                                     S."RFC",
-                                    S."NOMBRECOMISIONISTA",
+                                    INITCAP(S."NOMBRECOMISIONISTA") AS "NOMBRECOMISIONISTA",
                                     CAST(NULLIF(CAST(S."AGUINALDOEMPLEADOSPAGO" AS VARCHAR), '') AS DOUBLE PRECISION) AS AGUINALDOEMPLEADOSPAGO,
                                     S."CLASIFICACION",
                                     CAST(NULLIF(CAST(S."COMISIONEXTRAORDINARIA" AS VARCHAR), '') AS DOUBLE PRECISION) AS COMISIONEXTRAORDINARIA,
