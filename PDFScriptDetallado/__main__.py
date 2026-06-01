@@ -3129,11 +3129,11 @@ def generate_pdfs_from_csv_template(scriptConfig, arg1, preserve_generated_files
     # if district_recipients:
     #     send_local_template_email(output_path, district_recipients)
     # else:
-    #     send_local_template_email(output_path, ["cjuarez@exsoinf.com"])
+    #     send_local_template_email(output_path, ["dsuazo@exsoinf.com"])
 
     email_recipient = str(
-        get_config_value(config_section, "LOCAL_TEMPLATE_EMAIL_TO", "cjuarez@exsoinf.com")
-    ).strip() or "cjuarez@exsoinf.com"
+        get_config_value(config_section, "LOCAL_TEMPLATE_EMAIL_TO", "dsuazo@exsoinf.com")
+    ).strip() or "dsuazo@exsoinf.com"
     generated_files = []
 
     for index, (district_key, district_rows) in enumerate(grouped_rows, start=1):
