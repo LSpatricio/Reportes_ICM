@@ -2456,7 +2456,7 @@ def draw_finiquito_overlay(page_width, page_height, row, layout):
         "NOFAC": "MERMATOTAL_NOFAC",
         "SALDO": "MERMATOTAL_SALDO",
     }
-    inventory_total_y = safe_float(((inventory_layout.get("total_row") or {}).get("y_pt") if isinstance(inventory_layout, dict) else None), 351.00)
+    inventory_total_y = safe_float(((inventory_layout.get("total_row") or {}).get("y_pt") if isinstance(inventory_layout, dict) else None), 341.00)
     inventory_total_white = bool((inventory_layout.get("total_row") or {}).get("white_text", True)) if isinstance(inventory_layout, dict) else True
     for suffix in inventory_suffixes:
         total_field_name = inventory_total_field_lookup.get(suffix)
