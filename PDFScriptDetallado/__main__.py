@@ -2551,19 +2551,19 @@ def draw_finiquito_overlay(page_width, page_height, row, layout):
             "RECUP": get_numeric_field_or_rdl(layout, row, "DEV_AGUINALDO_RECUP"),
             "SALDO": get_numeric_field_or_rdl(layout, row, "DEV_AGUINALDO_SALDO"),
         }),
-        ("RETENCION_IMPUESTOS", {
+        ("RETENCION_IMPUESTOS", {            
+            "ANTERIOR": get_numeric_field_or_rdl(layout, row, "RETENIMPUESTOS_ANTERIOR"),
+            "MENSUAL": get_numeric_field_or_rdl(layout, row, "RETENIMPUESTOS_MENSUAL"),
+            "ACUM": get_numeric_field_or_rdl(layout, row, "RETENCIONIMP_ACUM"),
+            "RECUP": get_numeric_field_or_rdl(layout, row, "RETENIMPUESTOS_RECUP"),
+            "SALDO": get_numeric_field_or_rdl(layout, row, "RETENIMPUESTOS_SALDO"),            
+        }),
+        ("RETENCION_IMPUESTOS_NOMINA", {
             "ANTERIOR": get_numeric_field_or_rdl(layout, row, "RETENIMPNOMEMP_ANTERIOR"),
             "MENSUAL": get_numeric_field_or_rdl(layout, row, "RETENIMPNOMEMP_MENSUAL"),
             "ACUM": get_numeric_field_or_rdl(layout, row, "RETENCIONIMPNOMEMP_ACUM"),
             "RECUP": get_numeric_field_or_rdl(layout, row, "RETENIMPNOMEMP_RECUP"),
             "SALDO": get_numeric_field_or_rdl(layout, row, "RETENIMPNOMEMP_SALDO"),
-        }),
-        ("RETENCION_IMPUESTOS_NOMINA", {
-            "ANTERIOR": get_numeric_field_or_rdl(layout, row, "RETENIMPUESTOS_ANTERIOR"),
-            "MENSUAL": get_numeric_field_or_rdl(layout, row, "RETENIMPUESTOS_MENSUAL"),
-            "ACUM": get_numeric_field_or_rdl(layout, row, "RETENCIONIMP_ACUM"),
-            "RECUP": get_numeric_field_or_rdl(layout, row, "RETENIMPUESTOS_RECUP"),
-            "SALDO": get_numeric_field_or_rdl(layout, row, "RETENIMPUESTOS_SALDO"),
         }),
         ("ANTICIPO_PAGO_FACTURAS", {
             "ANTERIOR": get_numeric_field_or_rdl(layout, row, "ANTICIPOIMPRFAC_ANTERIOR"),
@@ -3129,11 +3129,11 @@ def generate_pdfs_from_csv_template(scriptConfig, arg1, preserve_generated_files
     # if district_recipients:
     #     send_local_template_email(output_path, district_recipients)
     # else:
-    #     send_local_template_email(output_path, ["dsuazo@exsoinf.com"])
+    #     send_local_template_email(output_path, ["cjuarez@exsoinf.com"])
 
     email_recipient = str(
-        get_config_value(config_section, "LOCAL_TEMPLATE_EMAIL_TO", "dsuazo@exsoinf.com")
-    ).strip() or "dsuazo@exsoinf.com"
+        get_config_value(config_section, "LOCAL_TEMPLATE_EMAIL_TO", "cjuarez@exsoinf.com")
+    ).strip() or "cjuarez@exsoinf.com"
     generated_files = []
 
     for index, (district_key, district_rows) in enumerate(grouped_rows, start=1):
