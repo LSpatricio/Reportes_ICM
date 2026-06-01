@@ -2362,12 +2362,13 @@ def draw_finiquito_overlay(page_width, page_height, row, layout):
         ("comisionextraordinariaca", 508.8, get_numeric_field_or_rdl(layout, row, "comisionextraordinariaca"), False),
         ("incentivoextraordinario", 498.4, get_numeric_field_or_rdl(layout, row, "incentivoextraordinario"), False),
         ("comisionextraordinaria", 488, get_numeric_field_or_rdl(layout, row, "comisionextraordinaria"), False),
-        ("subtotalcomison", 477.6, get_numeric_field_or_rdl(layout, row, "subtotalcomison"), False),
-        ("ivasubtotalcomision", 467.2, get_numeric_field_or_rdl(layout, row, "ivasubtotalcomision"), False),
-        ("retenciondosterciosiva", 456.8, get_numeric_field_or_rdl(layout, row, "retenciondosterciosiva"), False),
-        ("retencionisr", 446.4, get_numeric_field_or_rdl(layout, row, "retencionisr"), False),
-        ("impcedular", 436, get_numeric_field_or_rdl(layout, row, "impcedular"), False),
-        ("totalcomision", 425.6, get_numeric_field_or_rdl(layout, row, "totalcomision"), False),
+        ("incentivoresultadoslider", 477.6, get_numeric_field_or_rdl(layout, row, "comisionextraordinaria"), False),
+        ("subtotalcomison", 467.2, get_numeric_field_or_rdl(layout, row, "subtotalcomison"), False),
+        ("ivasubtotalcomision", 456.8, get_numeric_field_or_rdl(layout, row, "ivasubtotalcomision"), False),
+        ("retenciondosterciosiva", 446.4, get_numeric_field_or_rdl(layout, row, "retenciondosterciosiva"), False),
+        ("retencionisr", 436, get_numeric_field_or_rdl(layout, row, "retencionisr"), False),
+        ("impcedular", 425.6, get_numeric_field_or_rdl(layout, row, "impcedular"), False),
+        ("totalcomision", 415.2, get_numeric_field_or_rdl(layout, row, "totalcomision"), False),
     ]
     integration_rows_layout = integration_layout.get("rows") if integration_layout else {}
     for source_key, fallback_y_pt, value, is_total in integration_rows:
@@ -2397,14 +2398,14 @@ def draw_finiquito_overlay(page_width, page_height, row, layout):
         "MERMAIEPS": 4.2,
     }
     inventory_row_y_pt = {
-        "MERMAMCIACERO": 424.59,
-        "MERMAMCIAEXENTA": 413.97,
-        "MERMAMCIACONSIG": 402.59,
-        "MERMAMCIAGRAVAD": 391.17,
-        "MERMASUBTOTAL": 379.71,
-        "MERMAIVA": 369.29,
-        "MERMAIMPESTATAL": 357.90,
-        "MERMAIEPS": 347.48,
+        "MERMAMCIACERO":    415,
+        "MERMAMCIAEXENTA":  404,
+        "MERMAMCIACONSIG":  392.37,
+        "MERMAMCIAGRAVAD":  382.41,
+        "MERMASUBTOTAL":    370,
+        "MERMAIVA":         359,
+        "MERMAIMPESTATAL":  347.68,
+        "MERMAIEPS":        338,
     }
     inventory_field_suffix_lookup = {
         "ANTERIOR": "ANTERIOR",
@@ -2551,19 +2552,33 @@ def draw_finiquito_overlay(page_width, page_height, row, layout):
             "RECUP": get_numeric_field_or_rdl(layout, row, "DEV_AGUINALDO_RECUP"),
             "SALDO": get_numeric_field_or_rdl(layout, row, "DEV_AGUINALDO_SALDO"),
         }),
+        # ("RETENCION_IMPUESTOS", {
+        #     "ANTERIOR": get_numeric_field_or_rdl(layout, row, "RETENIMPNOMEMP_ANTERIOR"),
+        #     "MENSUAL": get_numeric_field_or_rdl(layout, row, "RETENIMPNOMEMP_MENSUAL"),
+        #     "ACUM": get_numeric_field_or_rdl(layout, row, "RETENCIONIMPNOMEMP_ACUM"),
+        #     "RECUP": get_numeric_field_or_rdl(layout, row, "RETENIMPNOMEMP_RECUP"),
+        #     "SALDO": get_numeric_field_or_rdl(layout, row, "RETENIMPNOMEMP_SALDO"),
+        # }),
+        # ("RETENCION_IMPUESTOS_NOMINA", {
+        #     "ANTERIOR": get_numeric_field_or_rdl(layout, row, "RETENIMPUESTOS_ANTERIOR"),
+        #     "MENSUAL": get_numeric_field_or_rdl(layout, row, "RETENIMPUESTOS_MENSUAL"),
+        #     "ACUM": get_numeric_field_or_rdl(layout, row, "RETENCIONIMP_ACUM"),
+        #     "RECUP": get_numeric_field_or_rdl(layout, row, "RETENIMPUESTOS_RECUP"),
+        #     "SALDO": get_numeric_field_or_rdl(layout, row, "RETENIMPUESTOS_SALDO"),
+        # }),
         ("RETENCION_IMPUESTOS", {
             "ANTERIOR": get_numeric_field_or_rdl(layout, row, "RETENIMPNOMEMP_ANTERIOR"),
             "MENSUAL": get_numeric_field_or_rdl(layout, row, "RETENIMPNOMEMP_MENSUAL"),
             "ACUM": get_numeric_field_or_rdl(layout, row, "RETENCIONIMPNOMEMP_ACUM"),
-            "RECUP": get_numeric_field_or_rdl(layout, row, "RETENIMPNOMEMP_RECUP"),
-            "SALDO": get_numeric_field_or_rdl(layout, row, "RETENIMPNOMEMP_SALDO"),
+            "RECUP": get_numeric_field_or_rdl(layout, row, "RETENIMPUESTOS_RECUP"),
+            "SALDO": get_numeric_field_or_rdl(layout, row, "RETENIMPUESTOS_SALDO"),            
         }),
         ("RETENCION_IMPUESTOS_NOMINA", {
             "ANTERIOR": get_numeric_field_or_rdl(layout, row, "RETENIMPUESTOS_ANTERIOR"),
             "MENSUAL": get_numeric_field_or_rdl(layout, row, "RETENIMPUESTOS_MENSUAL"),
             "ACUM": get_numeric_field_or_rdl(layout, row, "RETENCIONIMP_ACUM"),
-            "RECUP": get_numeric_field_or_rdl(layout, row, "RETENIMPUESTOS_RECUP"),
-            "SALDO": get_numeric_field_or_rdl(layout, row, "RETENIMPUESTOS_SALDO"),
+            "RECUP": get_numeric_field_or_rdl(layout, row, "RETENIMPNOMEMP_RECUP"),
+            "SALDO": get_numeric_field_or_rdl(layout, row, "RETENIMPNOMEMP_SALDO"),
         }),
         ("ANTICIPO_PAGO_FACTURAS", {
             "ANTERIOR": get_numeric_field_or_rdl(layout, row, "ANTICIPOIMPRFAC_ANTERIOR"),
@@ -2625,25 +2640,46 @@ def draw_finiquito_overlay(page_width, page_height, row, layout):
         "RETENCION_IMPUESTOS_NOMINA": 2.0,
     }
     fallback_discount_y = {
-        0: 251.6,
-        1: 243.4,
-        2: 235.2,
-        3: 227,
-        4: 218.8,
-        5: 210.6,
-        6: 202.4,
-        7: 194.2,
-        8: 186,
-        9: 177.4,
-        10: 168.1,
-        11: 159.1, #
-        12: 153,
-        13: 144.8,
-        14: 136.6,
-        15: 128.4,
-        16: 120.2,
-        17: 112,
-        18: 103.8,
+        # 0:  251.6,
+        # 1:  243.4,
+        # 2:  235.2,
+        # 3:  227,
+        # 4:  218.8,
+        # 5:  210.6,
+        # 6:  202.4,
+        # 7:  194.2,
+        # 8:  186,
+        # 9:  177.4,
+        # 10: 168.1,
+        # 11: 159.1, #
+        # 12: 153,
+        # 13: 144.8,
+        # 14: 136.6,
+        # 15: 128.4,
+        # 16: 120.2,
+        # 17: 112,
+        # 18: 103.8,
+         
+        0:  241.4,
+        1:  233.2,
+        2:  225,
+        3:  216.8,
+        4:  208.6,
+        5:  200.4,
+        6:  192.2,
+        7:  184,
+        8:  175.4,
+        9:  166.4,
+        10: 158.1, #
+        11: 149,
+        12: 142.8,
+        13: 134.6,
+        14: 126.4,
+        15: 118.2,
+        16: 110,
+        17: 101.8,
+        18: 92.6,
+        
     }
     discounts_totals = {suffix: 0.0 for suffix in ("ANTERIOR", "MENSUAL", "ACUM", "RECUP", "SALDO")}
     for row_index, (row_key, values_by_suffix) in enumerate(discounts_rows):
@@ -2655,7 +2691,7 @@ def draw_finiquito_overlay(page_width, page_height, row, layout):
             discounts_totals[suffix] += value
             draw_right_currency(pdf_canvas, discounts_column_right_x[suffix], row_y, value, font_name="Helvetica", font_size=discounts_font_size, max_width=discounts_max_width)
 
-    discounts_total_y = safe_float(((discounts_layout.get("total_row") or {}).get("y_pt") if isinstance(discounts_layout, dict) else None), 94)
+    discounts_total_y = safe_float(((discounts_layout.get("total_row") or {}).get("y_pt") if isinstance(discounts_layout, dict) else None), 82.8)
     discounts_total_y += discounts_row_y_offset_pt
     discounts_total_white = bool((discounts_layout.get("total_row") or {}).get("white_text", True)) if isinstance(discounts_layout, dict) else True
     total_anticipos_values = {
@@ -2683,8 +2719,8 @@ def draw_finiquito_overlay(page_width, page_height, row, layout):
     totals_rows_layout = totals_layout.get("rows") if totals_layout else {}
     total_a_pagar_cfg = totals_rows_layout.get("TOTAL_A_PAGAR", {}) if isinstance(totals_rows_layout, dict) else {}
     flujo_cfg = totals_rows_layout.get("FLUJO_MENSUAL", {}) if isinstance(totals_rows_layout, dict) else {}
-    total_a_pagar_y = safe_float(total_a_pagar_cfg.get("y_pt"), 82.6) if total_a_pagar_cfg else 82.6
-    flujo_mensual_y = safe_float(flujo_cfg.get("y_pt"), 70.4) if flujo_cfg else 70.4
+    total_a_pagar_y = safe_float(total_a_pagar_cfg.get("y_pt"), 71.9) if total_a_pagar_cfg else 71.9
+    flujo_mensual_y = safe_float(flujo_cfg.get("y_pt"), 59.7) if flujo_cfg else 59.7
     draw_right_currency(
         pdf_canvas,
         totals_right_x,
