@@ -2446,17 +2446,21 @@ def generate_pdfs_from_csv_template(scriptConfig, arg1, preserve_generated_files
     #    asociados a la llave "DIS-" + district_key.
     #
     # Configuracion sugerida (comentada, no activa):
-    # district_email_csv_path = os.path.join(DATA_DIR, "DistrictEmailTable.csv")
-    # district_email_map = {}
-    # if os.path.exists(district_email_csv_path):
-    #     with open(district_email_csv_path, "r", encoding="utf-8-sig", newline="") as csv_file:
-    #         reader = csv.DictReader(csv_file, delimiter=";")
-    #         for row in reader:
-    #             district_lookup_key = str(row.get("col_0", "")).strip()
-    #             email_value = str(row.get("col_1", "")).strip()
-    #             if district_lookup_key and email_value:
-    #                 district_email_map.setdefault(district_lookup_key, []).append(email_value)
-    #
+    district_email_csv_path = os.path.join(DATA_DIR, "DistrictEmailTable.csv")
+    district_email_map = {}
+    if os.path.exists(district_email_csv_path):
+         with open(district_email_csv_path, "r", encoding="utf-8-sig", newline="") as csv_file:
+             reader = csv.DictReader(csv_file, delimiter=";")
+             for row in reader:
+                 district_lookup_key = str(row.get("col_0", "")).strip()
+                 email_value = str(row.get("col_1", "")).strip()
+                 if district_lookup_key and email_value:
+                     district_email_map.setdefault(district_lookup_key, []).extend(
+                        email.strip()
+                        for email in email_value.split(";")
+                        if email.strip()
+                    )
+    
     # Uso sugerido al generar cada PDF (comentado, no activo):
     # district_lookup_key = f"DIS-{district_key}"
     # district_recipients = district_email_map.get(district_lookup_key, [])
@@ -2465,12 +2469,14 @@ def generate_pdfs_from_csv_template(scriptConfig, arg1, preserve_generated_files
     # else:
     #     send_local_template_email(output_path, ["dsuazo@exsoinf.com"])
 
-    email_recipient = str(
-        get_config_value(config_section, "LOCAL_TEMPLATE_EMAIL_TO", "dsuazo@exsoinf.com")
-    ).strip() or "dsuazo@exsoinf.com"
+    #email_recipient = str(
+    #    get_config_value(config_section, "LOCAL_TEMPLATE_EMAIL_TO", "dsuazo@exsoinf.com")
+    #).strip() or "dsuazo@exsoinf.com"
     generated_files = []
 
     for index, (district_key, district_rows) in enumerate(grouped_rows, start=1):
+        district_recipients = district_email_map.get(district_key, [])
+
         output_name = build_output_filename(district_rows[0])
         output_path = os.path.join(output_dir, output_name)
         writer = PdfWriter()
@@ -2493,9 +2499,10 @@ def generate_pdfs_from_csv_template(scriptConfig, arg1, preserve_generated_files
         )
         
         try:
-            sent, detail = send_local_template_email(output_path, email_recipient)
+            #sent, detail = send_local_template_email(output_path, email_recipient)
+            sent, detail = send_local_template_email(output_path, district_recipients)
             if sent:
-                print(f"[LOCAL_TEMPLATE] Correo enviado a {email_recipient}: {output_path}")
+                print(f"[LOCAL_TEMPLATE] Correo enviado a {district_recipients}: {output_path}")
                 if not preserve_generated_files and os.path.exists(output_path):
                     try:
                         os.remove(output_path)
