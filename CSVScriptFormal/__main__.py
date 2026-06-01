@@ -603,9 +603,9 @@ def run_process():
                         )
                         SELECT
                             S."COMISIONID",
-                            'PLA-' || S."CRPLAZA" AS PLAZA,
+                            'MPL-' || S."CRPLAZA" AS PLAZA,
                             'TIE-' || S."CRPLAZA" || S."CRTIENDA" || '(' || S."DESCTIENDA" || ')' AS TIENDA,
-                            S."CRDISTRITO",
+                            'DIS-' ||S."CRDISTRITO" AS "CRDISTRITO",
                             S."FECHAINICIAL",
                             S."FECHAFINAL",
                             periodo.MES AS MES,
@@ -865,7 +865,7 @@ def run_process():
                           AND {filters["filtro_plazas_sql"]}
                           AND {filters["filtro_tiendas_sql"]}
                         ORDER BY 'PLA-' || S."CRPLAZA", S."CRDISTRITO", S."NOMBRECOMISIONISTA"
-                    ) q
+                    ) q ORDER BY "NOMBRECOMISIONISTA" asc
             """
 ,
                 "output": "CatCalculation.csv"

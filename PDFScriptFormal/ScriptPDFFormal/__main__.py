@@ -102,10 +102,10 @@ dataDir = resolve_runtime_dir([
 templateDir = resolve_runtime_dir([
     os.path.join(runtimeBaseDir, "TemplatePDF"),
     os.path.join(runtimeScriptsRoot, "TemplatePDF"),
+    os.path.join(runtimeProjectRoot, "TemplatePDF"),
     os.path.join(scriptDir, "TemplatePDF"),
     os.path.join(scriptsRoot, "TemplatePDF"),
     os.path.join(projectRoot, "TemplatePDF"),
-
 ])
 processDir = resolve_runtime_dir([
     os.path.join(runtimeBaseDir, "Settings"),
@@ -142,7 +142,11 @@ FOOTER_FONT_SIZE = 6.0
 ZERO_EPSILON = 0.004
 
 # Variables de entorno compartidas del proyecto.
-dotenv_path = os.path.join(scriptsRoot, ".env")
+# dotenv_path = os.path.join(scriptsRoot, ".env")
+if not os.path.exists(os.path.join(scriptsRoot, ".env")):
+    dotenv_path = os.path.join(projectRoot, ".env")
+else:
+    dotenv_path = os.path.join(scriptsRoot, ".env")
 load_dotenv(dotenv_path)
 load_dotenv()
 
@@ -293,6 +297,12 @@ def safe_float(value, default=0.0):
     except (TypeError, ValueError):
         return default
 
+def get_first_row_value(row, keys, default=""):
+    for key in keys:
+        value = get_row_value(row, key, None)
+        if value not in (None, ""):
+            return value
+    return default
 
 def sum_row_fields(row, field_names):
     total = 0.0
@@ -348,6 +358,8 @@ def get_spanish_month_name_from_date(value):
         12: "Diciembre",
     }[date_value.month]
 
+def obtener_anio_periodo(periodo):
+    return periodo.split("-")[0]
 
 def format_spanish_datetime(value=None):
     date_value = value if isinstance(value, datetime) else datetime.now()
@@ -1187,6 +1199,7 @@ INTEGRATION_ROW_OFFSETS_PT = {
     "comisionfija": 16.0,
     "comisionporestructura": 16.0,
     "comisionvariable": 16.0,
+    "incentivovtacat": 16.0,
     "subtotalcomison": 16.0,
     "ivasubtotalcomision": 16.0,
     "retenciondosterciosiva": 16.0,
@@ -1201,7 +1214,7 @@ INTEGRATION_ROW_OFFSET_ALIASES = {
     "COMISIONPORESTRUCTURA": "comisionporestructura",
     "COMISIONES": "comisionvariable",
     "COMISIONVARIABLE": "comisionvariable",
-    "SUBTOTALCOMISION": "subtotalcomison",
+    "INCENTIVOVTACAT": "incentivovtacat",
     "SUBTOTALCOMISON": "subtotalcomison",
     "IVACOMISION": "ivasubtotalcomision",
     "IVASUBTOTALCOMISION": "ivasubtotalcomision",
@@ -1696,24 +1709,63 @@ def draw_finiquito_overlay(page_width, page_height, row, layout):
                 "width": safe_float(field_cfg.get("max_width_pt"), fallback_width),
             }
         return {"x": fallback_x, "y": fallback_y, "width": fallback_width}
-
-    mes_pos = header_field_position("MES", 123.41, 767.47, 150)
-    plaza_pos = header_field_position("PLAZA", 123.41, 759.09, 210)
-    distrito_pos = header_field_position("CRDISTRITO", 123.41, 750.72, 230)
-    tienda_pos = header_field_position("TIENDA", 123.41, 742.35, 250)
-    comisionista_pos = header_field_position("NOMBRECOMISIONISTA", 123.41, 733.97, 270)
+    """
+    mes_pos = header_field_position("MES", 1,790, 150)
+    plaza_pos = header_field_position("PLAZA", 60, 749.5, 210)
+    distrito_pos = header_field_position("CRDISTRITO", 55, 739.5, 230)
+    tienda_pos = header_field_position("TIENDA", 78, 727, 250)
+    comisionista_pos = header_field_position("NOMBRECOMISIONISTA", 240, 739.8, 270)
     ultimo_calculo_pos = header_field_position("ULTIMO_CALCULO", 404.95, 786.01, 145)
     fecha_reporte_pos = header_field_position("FECHA_REPORTE", 404.95, 778.31, 145)
+    """
+
+    tiendaDetalle= re.match(r"^(.*?)\((.*?)\)$",get_row_value(row, "tienda"))
+    
+    mes_anio = f"{get_spanish_month_name_from_date( get_row_value(row, "FECHAINICIAL"))} del año {obtener_anio_periodo(get_row_value(row, "mes"))}"
+        # 123.41 y 763.05 (y-33(menos es izquierda), x+10.75(mas es subir))
+    # Arreglado
+    mes_pos = header_field_position("MES", 74, 762, 110)
+
+    # Arreglado
+    plaza_pos = header_field_position("PLAZA", 74, 749.5, 210)
+    distrito_pos = header_field_position("CRDISTRITO", 74, 740, 230)
+    tienda_pos = header_field_position("TIENDA", 74,  727.7, 250)
+    nombreTienda_pos = header_field_position("NOMBRETIENDA", 74,  717.7, 250)
+
+    # Arreglado
+    comisionista_pos = header_field_position("NOMBRECOMISIONISTA", 238, 740.7, 270)
+    
+    ultimo_calculo_pos = header_field_position("ULTIMO_CALCULO", 404.95, 785.90, 145)
+
+    fecha_reporte_pos = header_field_position("FECHA_REPORTE", 404.95, 778.20, 145)
+
+    # Arreglado
+    rfc_pos = header_field_position("RFC",210, 727.7, 270)
+
+    fecha_inicio_pos = header_field_position("FECHAINICIAL", 243, 765.8, 270)
+    fecha_fin_pos = header_field_position("FECHAFINAL", 290, 765.8, 270)
+
+
 
     header_font_size = parse_float(header_layout.get("font_size"), 6.2) if header_layout else 6.2
 
     draw_text(pdf_canvas, mes_pos["x"], mes_pos["y"], get_row_value(row, "mes"), font_size=header_font_size, max_width=mes_pos["width"], trim_overflow=True, shrink_to_fit=False)
-    draw_text(pdf_canvas, ultimo_calculo_pos["x"], ultimo_calculo_pos["y"], format_spanish_datetime(current_run), font_size=header_font_size, max_width=ultimo_calculo_pos["width"], trim_overflow=True, shrink_to_fit=False)
-    draw_text(pdf_canvas, fecha_reporte_pos["x"], fecha_reporte_pos["y"], format_spanish_date(current_run), font_size=header_font_size, max_width=fecha_reporte_pos["width"], trim_overflow=True, shrink_to_fit=False)
+   #draw_text(pdf_canvas, ultimo_calculo_pos["x"], ultimo_calculo_pos["y"], format_spanish_datetime(current_run), font_size=header_font_size, max_width=ultimo_calculo_pos["width"], trim_overflow=True, shrink_to_fit=False)
+    #draw_text(pdf_canvas, fecha_reporte_pos["x"], fecha_reporte_pos["y"], format_spanish_date(current_run), font_size=header_font_size, max_width=fecha_reporte_pos["width"], trim_overflow=True, shrink_to_fit=False)
     draw_text(pdf_canvas, plaza_pos["x"], plaza_pos["y"], get_row_value(row, "plaza"), font_size=header_font_size, max_width=plaza_pos["width"], trim_overflow=True, shrink_to_fit=False)
     draw_text(pdf_canvas, distrito_pos["x"], distrito_pos["y"], get_row_value(row, "CRDISTRITO"), font_size=header_font_size, max_width=distrito_pos["width"], trim_overflow=True, shrink_to_fit=False)
-    draw_text(pdf_canvas, tienda_pos["x"], tienda_pos["y"], normalize_single_line_text(get_row_value(row, "tienda")), font_size=header_font_size, max_width=tienda_pos["width"], min_size=7, trim_overflow=True, shrink_to_fit=False)
-    draw_text(pdf_canvas, comisionista_pos["x"], comisionista_pos["y"], build_header_comisionista_text(row), font_size=header_font_size, max_width=comisionista_pos["width"], trim_overflow=True, shrink_to_fit=False)
+    #draw_text(pdf_canvas, tienda_pos["x"], tienda_pos["y"], normalize_single_line_text(get_row_value(row, "tienda")), font_size=header_font_size, max_width=tienda_pos["width"], min_size=7, trim_overflow=True, shrink_to_fit=False)
+    draw_text(pdf_canvas, tienda_pos["x"], tienda_pos["y"], tiendaDetalle.group(1), font_size=header_font_size, max_width=tienda_pos["width"], min_size=7, trim_overflow=True, shrink_to_fit=False)
+    draw_text(pdf_canvas, nombreTienda_pos["x"], nombreTienda_pos["y"], tiendaDetalle.group(2), font_size=header_font_size, max_width=nombreTienda_pos["width"], min_size=7, trim_overflow=True, shrink_to_fit=False)
+
+    #draw_text(pdf_canvas, tienda_pos["x"], tienda_pos["y"], normalize_single_line_text(get_row_value(row, "tienda")), font_size=header_font_size, max_width=tienda_pos["width"], min_size=7, trim_overflow=True, shrink_to_fit=False)
+    #draw_text(pdf_canvas, comisionista_pos["x"], comisionista_pos["y"], build_header_comisionista_text(row), font_size=header_font_size, max_width=comisionista_pos["width"], trim_overflow=True, shrink_to_fit=False)
+    draw_text(pdf_canvas, comisionista_pos["x"], comisionista_pos["y"], get_row_value(row,"NOMBRECOMISIONISTA"), font_size=header_font_size, max_width=comisionista_pos["width"], trim_overflow=True, shrink_to_fit=False)
+    draw_text(pdf_canvas, rfc_pos["x"], rfc_pos["y"], get_row_value(row, "RFC"), font_size=header_font_size, max_width=rfc_pos["width"], trim_overflow=True, shrink_to_fit=False)
+    draw_text(pdf_canvas, fecha_inicio_pos["x"], fecha_inicio_pos["y"],  format_date_value(get_first_row_value(row, ["FechaInicio", "FECHAINICIO", "FECHAINICIAL"])), font_size=header_font_size, max_width=fecha_inicio_pos["width"], trim_overflow=True, shrink_to_fit=False)
+    draw_text(pdf_canvas, fecha_fin_pos["x"], fecha_fin_pos["y"], format_date_value(get_first_row_value(row, ["FechaFin", "FECHAFIN", "FECHAFINAL"])), font_size=header_font_size, max_width=fecha_fin_pos["width"], trim_overflow=True, shrink_to_fit=False)
+
+
 
     integration_right_x = safe_float(integration_layout.get("right_x_pt"), 557.03) if integration_layout else 557.03
     integration_default_max_width = safe_float(integration_layout.get("default_max_width_pt"), 80) if integration_layout else 80
@@ -1723,15 +1775,16 @@ def draw_finiquito_overlay(page_width, page_height, row, layout):
     integration_default_font_name = str(integration_layout.get("default_font_name") or "Helvetica") if integration_layout else "Helvetica"
     integration_total_font_name = str(integration_layout.get("total_font_name") or "Helvetica") if integration_layout else "Helvetica"
     integration_row_y_pt = {
-        "comisionfija": 694.83,
-        "comisionporestructura": 686.35,
-        "comisionvariable": 677.87,
-        "subtotalcomison": 669.39,
-        "ivasubtotalcomision": 660.91,
-        "retenciondosterciosiva": 652.03,
-        "retencionisr": 643.04,
-        "impcedular": 634.45,
-        "totalcomision": 625.97,
+        "comisionfija":             663.56,
+        "comisionporestructura":    653.06,
+        "comisionvariable":         640.50,
+        "incentivovtacat":          629.00,
+        "subtotalcomison":          617.00,
+        "ivasubtotalcomision":      605.00,
+        "retenciondosterciosiva":   593.00,
+        "retencionisr":             582.00,
+        "impcedular":               571.00,
+        "totalcomision":            558.00,
     }
     integration_layout_rows = integration_layout.get("rows") if integration_layout else {}
     for source_key, fallback_y_pt in integration_row_y_pt.items():
@@ -1754,14 +1807,14 @@ def draw_finiquito_overlay(page_width, page_height, row, layout):
     inventory_suffixes = ["ANTERIOR", "MENSUAL", "ACUMULAD", "FACTURAD", "NOFAC", "SALDO"]
     inventory_row_prefixes = ["MERMAMCIACERO", "MERMAMCIAEXENTA", "MERMAMCIACONSIG", "MERMAMCIAGRAVAD", "MERMASUBTOTAL", "MERMAIVA", "MERMAIMPESTATAL", "MERMAIEPS"]
     inventory_row_y_pt = {
-        "MERMAMCIACERO": 583.17,
-        "MERMAMCIAEXENTA": 574.18,
-        "MERMAMCIACONSIG": 565.70,
-        "MERMAMCIAGRAVAD": 557.21,
-        "MERMASUBTOTAL": 548.73,
-        "MERMAIVA": 540.25,
-        "MERMAIMPESTATAL": 531.77,
-        "MERMAIEPS": 522.78,
+        "MERMAMCIACERO":    499.00,
+        "MERMAMCIAEXENTA":  488.00,
+        "MERMAMCIACONSIG":  476.00,
+        "MERMAMCIAGRAVAD":  464.00,
+        "MERMASUBTOTAL":    452.00,
+        "MERMAIVA":         440.00,
+        "MERMAIMPESTATAL":  429.00,
+        "MERMAIEPS":        417.00,
     }
     inventory_field_suffix_lookup = {
         "ANTERIOR": "ANTERIOR",
@@ -1773,11 +1826,11 @@ def draw_finiquito_overlay(page_width, page_height, row, layout):
     }
     inventory_layout_columns = inventory_layout.get("columns") if inventory_layout else {}
     inventory_column_right_x = {
-        "ANTERIOR": safe_float(((inventory_layout_columns.get("ANTERIOR") or {}).get("right_x_pt") if isinstance(inventory_layout_columns, dict) else None), 263.43),
-        "MENSUAL": safe_float(((inventory_layout_columns.get("MENSUAL") or {}).get("right_x_pt") if isinstance(inventory_layout_columns, dict) else None), 322.15),
-        "ACUMULAD": safe_float(((inventory_layout_columns.get("ACUMULAD") or {}).get("right_x_pt") if isinstance(inventory_layout_columns, dict) else None), 380.87),
-        "FACTURAD": safe_float(((inventory_layout_columns.get("FACTURAD") or {}).get("right_x_pt") if isinstance(inventory_layout_columns, dict) else None), 439.59),
-        "NOFAC": safe_float(((inventory_layout_columns.get("NOFAC") or {}).get("right_x_pt") if isinstance(inventory_layout_columns, dict) else None), 498.32),
+        "ANTERIOR": safe_float(((inventory_layout_columns.get("ANTERIOR") or {}).get("right_x_pt") if isinstance(inventory_layout_columns, dict) else None), 256.00),
+        "MENSUAL": safe_float(((inventory_layout_columns.get("MENSUAL") or {}).get("right_x_pt") if isinstance(inventory_layout_columns, dict) else None), 316.00),
+        "ACUMULAD": safe_float(((inventory_layout_columns.get("ACUMULAD") or {}).get("right_x_pt") if isinstance(inventory_layout_columns, dict) else None), 376.00),
+        "FACTURAD": safe_float(((inventory_layout_columns.get("FACTURAD") or {}).get("right_x_pt") if isinstance(inventory_layout_columns, dict) else None), 437.00),
+        "NOFAC": safe_float(((inventory_layout_columns.get("NOFAC") or {}).get("right_x_pt") if isinstance(inventory_layout_columns, dict) else None), 497.00),
         "SALDO": safe_float(((inventory_layout_columns.get("SALDO") or {}).get("right_x_pt") if isinstance(inventory_layout_columns, dict) else None), 557.03),
     }
     inventory_rows_layout = inventory_layout.get("rows") if inventory_layout else {}
@@ -1813,10 +1866,10 @@ def draw_finiquito_overlay(page_width, page_height, row, layout):
     }
     total_row_cfg = inventory_layout.get("total_row") if inventory_layout else {}
     if isinstance(total_row_cfg, dict) and total_row_cfg:
-        inventory_total_y = safe_float(total_row_cfg.get("y_pt"), 513.11)
+        inventory_total_y = safe_float(total_row_cfg.get("y_pt"), 403.00)
         inventory_total_white = bool(total_row_cfg.get("white_text", True))
     else:
-        inventory_total_y = 513.11
+        inventory_total_y = 403.00
         inventory_total_white = True
     for suffix in inventory_suffixes:
         total_field_name = inventory_total_field_lookup.get(suffix)
@@ -1843,7 +1896,7 @@ def draw_finiquito_overlay(page_width, page_height, row, layout):
         }),
         ("ANTICIPO_COMISION_PAGO_A_TERCEROS", {
             "ANTERIOR": sum_row_fields(row, ["ANTICIPOCONT_ANTERIOR", "ANTICIPOIMPRFAC_ANTERIOR", "ANTICIPOPAGOSAL_ANTERIOR", "APORTCAJAAHORRO_ANTERIOR", "DEV_AGUINALDO_ANTERIOR", "DEVRETDIFIVA_ANTERIOR", "PRESTAMOCAJAAHO_ANTERIOR", "RETENUNTERCIO_ANTERIOR", "RETENIMPUESTOS_ANTERIOR", "RETENIMPNOMEMP_ANTERIOR", "ANTICIPOPAMULTA_ANTERIOR", "RESERAGUINALRED_ANTERIOR"]),
-            "MENSUAL": sum_row_fields(row, ["ANTIDESPCONT_MENSUAL", "ANTIIMPRFACT_MENSUAL", "DEVRETDIFIVA_MENSUAL", "RETENUNTERCIOIVA_MENSUAL", "RETENIMPUESTOS_MENSUAL", "RETENIMPNOMEMP_MENSUAL", "ANTIPAGOSALARIOS_MENSUAL", "APORTCAJAAHORRO_MENSUAL", "PRESTCAJAAHORRO_MENSUAL", "RESERAGUINREDPAT_MENSUAL", "DEV_AGUINALDO_MENSUAL", "ANTIPAGOMULTAS_MENSUAL"]),
+            "MENSUAL": sum_row_fields(row, ["ANTIDESPCONT_MENSUAL", "ANTIIMPRFACT_MENSUAL", "DEVRETDIFIVA_MENSUAL", "RETENUNTERCIOIVA_MENSUAL", "RETENIMPUESTOS_MENSUAL", "RETENIMPNOMEMP_MENSUAL", "ANTIPAGOSALARIOS_MENSUAL", "APORTCAJAAHORRO_MENSUAL", "PRESTCAJAAHORRO_MENSUAL", "RESERAGUINREDPAT_MENSUAL", "DEV_AGUINALDO_MENSUAL", "ANTIPAGOMULTAS_SALDO"]),
             "ACUM": sum_row_fields(row, ["ANTIDESPCONT_ACUM", "ANTIIMPRFACT_ACUM", "ANTIPAGOMULTAS_ACUM", "ANTIPAGOSALARIOS_ACUM", "APORTCAJAAHORROS_ACUM", "DEVRETENDIFIVA_ACUM", "RETENCIONUNTERCIO_ACUM", "RETENCIONIMP_ACUM", "RETENCIONIMPNOMEMP_ACUM", "RESERAGUINRED_ACUM", "DEV_AGUINALDO_ACUMULADA", "PRESTAMOCAJAAHORRO_ACUM"]),
             "RECUP": sum_row_fields(row, ["ANTIDESPCONT_RECUP", "ANTIIMPRFACT_RECUP", "DEVRETENDIFIVA_RECUP", "RETENUNTERCIOIVA_RECUP", "RETENIMPUESTOS_RECUP", "RETENIMPNOMEMP_RECUP", "APORTCAJAAHORROS_RECUP", "PRESTAMOCAJAAHORRO_RECUP", "RESERAGUINRED_RECUP", "ANTIPAGOSALARIOS_RECUP", "DEV_AGUINALDO_RECUP", "ANTIPAGOMULTAS_RECUP"]),
             "SALDO": sum_row_fields(row, ["ANTIDESPCONTABLE_SALDO", "ANTIIMPFACT_SALDO", "ANTIPAGOMULTAS_SALDO", "ANTIPAGOSALARIOS_SALDO", "APORTCAJAAHORRO_SALDO", "DEVRETENDIFIVA_SALDO", "PRESTOTALCAJAHORRO_SALDO", "RESERAGUINRED_SALDO", "RETENUNTERCIOIVA_SALDO", "RETENIMPNOMEMP_SALDO", "RETENIMPUESTOS_SALDO", "DEV_AGUINALDO_SALDO"]),
@@ -1856,34 +1909,52 @@ def draw_finiquito_overlay(page_width, page_height, row, layout):
             "SALDO": get_numeric_field_or_rdl(layout, row, "DIFDESPOSITOS_SALDO"),
         }),
         ("OTROS_ANTICIPOS", {
-            "ANTERIOR": get_numeric_field_or_rdl(layout, row, "ANTICIPOSOTROS_ANTERIOR"),
-            "MENSUAL": get_numeric_field_or_rdl(layout, row, "ANTIOTROS_MENSUAL"),
-            "ACUM": get_numeric_field_or_rdl(layout, row, "ANTICIPOSOTROS_ACUM"),
-            "RECUP": get_numeric_field_or_rdl(layout, row, "ANTICIPOSOTROS_RECUP"),
-            "SALDO": get_numeric_field_or_rdl(layout, row, "ANTICIPOSOTROS_SALDO"),
+            "ANTERIOR": sum_row_fields(row, ["ANTICIPOSPECIAL_ANTERIOR", "ANTICIPOPAGOTEL_ANTERIOR", "ANTICIPOSOTROS_ANTERIOR", "DESCUENTOSEGVOL_ANTERIOR", "DESCUENTOFASTFO_ANTERIOR" ,"ANTICIPESPTOTAL_ANTERIOR"]),
+            "MENSUAL": sum_row_fields(row, ["ANTIPAGOTEL_MENSUAL", "ANTIESPECIAL_MENSUAL", "DESCFASTFOOD_MENSUAL", "DESCSEGVOLUN_MENSUAL", "ANTIOTROS_MENSUAL" ,"PAGOTOTANTIESPE_MENSUAL"]),
+            "ACUM":  sum_row_fields(row, ["ANTIPAGOTEL_ACUM", "ANTIESPECIALES_ACUM", "DESCFASTFOOD_ACUM", "DESCSEGVOLUN_ACUM", "ANTICIPOSOTROS_ACUM" ,"PAGOTOTANTIESPE_ACUM"]),
+            "RECUP": sum_row_fields(row, ["ANTIPAGOTEL_RECUP", "ANTIESPECIALES_RECUP", "DESCUENTOFASTFOOD_RECUP", "DESCSEGVOLUN_RECUP", "ANTICIPOSOTROS_RECUP" ,"PAGOTOTANTIESPE_RECUP"]),
+            "SALDO": sum_row_fields(row, ["PAGOTOTANTIESPECIA_SALDO", "ANTIESPECIALES_SALDO", "DESCFASTFOOD_SALDO", "ANTICIPOSOTROS_SALDO", "DESCSEGDIFIVA_SALDO" ,"ANTIPAGOTELEFONO_SALDO"]),
         }),
     ]
+
+    totalDiscounts_rows = [
+        ("TOTAL_ANTICIPOS", {
+            "ANTERIOR": sum_row_fields(row, ["TOTALANTICIPOS_ANTERIOR", "RESERVACARED_ANTERIOR", "ANTICIPOCAPACIT_ANTERIOR", "RESERCRECIPATRI_ANTERIOR", "DEV_AGUINALDO_ANTERIOR" ]),
+            "MENSUAL": sum_row_fields(row, ["TOTALANTICIPOS_MENSUAL", "ANTICAPACITACION_MENSUAL", "RESERVACARED_MENSUAL", "RESERCRECIPATRI_MENSUAL", "DEV_AGUINALDO_MENSUAL" ]),
+            "ACUM":  sum_row_fields(row, ["TOTALANTICIPOS_ACUM", "ANTICAPACITACION_ACUM", "RESERCRECIPAT_ACUM", "RESERVACARED_ACUM", "DEV_AGUINALDO_ACUMULADA" ]),
+            "RECUP": sum_row_fields(row, ["TOTALANTICIPOS_RECUP", "ANTICAPACITACION_RECUP", "RESERCRECIPAT_RECUP", "RESERVACARED_RECUP", "DEV_AGUINALDO_RECUP" ]),
+            "SALDO": sum_row_fields(row, ["TOTALANTICIPOS_SALDO", "ANTICAPACITACION_SALDO", "RESERCRECIPAT_SALDO", "RESERVACARED_SALDO", "DEV_AGUINALDO_SALDO" ]),
+        }),]
+
     discounts_rows_layout = discounts_layout.get("rows") if discounts_layout else {}
     discounts_font_size = parse_float(discounts_layout.get("font_size"), 5.8) if discounts_layout else 5.8
     discounts_total_font_size = parse_float(discounts_layout.get("total_font_size"), 5.8) if discounts_layout else 5.8
     discounts_max_width = safe_float(discounts_layout.get("max_width_pt"), 54) if discounts_layout else 54
     fallback_discount_y = {0: 473.61, 1: 465.13, 2: 456.40, 3: 447.66}
-    discounts_totals = {suffix: 0.0 for suffix in ("ANTERIOR", "MENSUAL", "ACUM", "RECUP", "SALDO")}
+    #discounts_totals = {suffix: 0.0 for suffix in ("ANTERIOR", "MENSUAL", "ACUM", "RECUP", "SALDO")}
     for row_index, (row_key, values_by_suffix) in enumerate(discounts_rows):
         row_cfg = discounts_rows_layout.get(row_key, {}) if isinstance(discounts_rows_layout, dict) else {}
         row_y = safe_float(row_cfg.get("y_pt"), fallback_discount_y[row_index]) if row_cfg else fallback_discount_y[row_index]
         for suffix, value in values_by_suffix.items():
-            discounts_totals[suffix] += value
+            #discounts_totals[suffix] += value
             draw_right_currency(pdf_canvas, discounts_column_right_x[suffix], row_y, value, font_name="Helvetica", font_size=discounts_font_size, max_width=discounts_max_width)
     discounts_total_row_cfg = discounts_layout.get("total_row") if discounts_layout else {}
     if isinstance(discounts_total_row_cfg, dict) and discounts_total_row_cfg:
-        discounts_total_y = safe_float(discounts_total_row_cfg.get("y_pt"), 439.18)
+        discounts_total_y = safe_float(discounts_total_row_cfg.get("y_pt"), 311.00)
         discounts_total_white = bool(discounts_total_row_cfg.get("white_text", True))
     else:
-        discounts_total_y = 439.18
+        discounts_total_y = 311.00
         discounts_total_white = True
-    for suffix, value in discounts_totals.items():
-        draw_right_currency(pdf_canvas, discounts_column_right_x[suffix], discounts_total_y, value, font_name="Helvetica-Bold", font_size=discounts_total_font_size, max_width=discounts_max_width, text_rgb=(1,1,1) if discounts_total_white else None)
+    for row_index, (row_key, values_by_suffix) in enumerate(totalDiscounts_rows):
+        row_cfg = discounts_rows_layout.get(row_key, {}) if isinstance(discounts_rows_layout, dict) else {}
+        row_y = safe_float(row_cfg.get("y_pt"), fallback_discount_y[row_index]) if row_cfg else fallback_discount_y[row_index]
+        for suffix, value in values_by_suffix.items():
+            draw_right_currency(pdf_canvas, discounts_column_right_x[suffix], discounts_total_y, value, font_name="Helvetica-Bold", font_size=discounts_total_font_size, max_width=discounts_max_width, text_rgb=(1,1,1) if discounts_total_white else None)
+    
+    
+    
+    #for suffix, value in discounts_totals.items():
+        #draw_right_currency(pdf_canvas, discounts_column_right_x[suffix], discounts_total_y, value, font_name="Helvetica-Bold", font_size=discounts_total_font_size, max_width=discounts_max_width, text_rgb=(1,1,1) if discounts_total_white else None)
 
     totals_right_x = safe_float(totals_layout.get("right_x_pt"), 557.03) if totals_layout else 557.03
     totals_max_width = safe_float(totals_layout.get("max_width_pt"), mm_to_points("24.00000mm")) if totals_layout else mm_to_points("24.00000mm")
@@ -1927,11 +1998,11 @@ def draw_finiquito_overlay(page_width, page_height, row, layout):
     if is_layout_block_enabled(signature_name_cfg, default=True):
         draw_center_text(
             pdf_canvas,
-            safe_float(signature_name_cfg.get("center_x_pt"), 300.0),
-            safe_float(signature_name_cfg.get("y_pt"), 345.0),
+            safe_float(signature_name_cfg.get("center_x_pt"), 295.0),
+            safe_float(signature_name_cfg.get("y_pt"),214),
             normalize_single_line_text(get_row_value(row, "NOMBRECOMISIONISTA")),
             font_name=str(signature_name_cfg.get("font_name") or "Helvetica"),
-            font_size=parse_float(signature_name_cfg.get("font_size"), 7.3),
+            font_size=parse_float(signature_name_cfg.get("font_size"), 8.4),
             max_width=safe_float(signature_name_cfg.get("max_width_pt"), 260),
             trim_overflow=True,
             shrink_to_fit=True
@@ -1941,8 +2012,8 @@ def draw_finiquito_overlay(page_width, page_height, row, layout):
     if is_layout_block_enabled(signature_amount_cfg, default=True):
         draw_text(
             pdf_canvas,
-            safe_float(signature_amount_cfg.get("x_pt"), 330.0),
-            safe_float(signature_amount_cfg.get("y_pt"), 326.5),
+            safe_float(signature_amount_cfg.get("x_pt"), 201.0),
+            safe_float(signature_amount_cfg.get("y_pt"), 166.6),
             get_signature_total_amount(row),
             font_name=str(signature_amount_cfg.get("font_name") or "Helvetica"),
             font_size=parse_float(signature_amount_cfg.get("font_size"), 5.6),
@@ -1950,6 +2021,20 @@ def draw_finiquito_overlay(page_width, page_height, row, layout):
             trim_overflow=True,
             shrink_to_fit=True
         )
+
+    mes_anio_cfg = (signature_layout.get("image_name") or {}) if signature_layout else {}
+    if is_layout_block_enabled(mes_anio_cfg, default=True):
+        draw_center_text(
+            pdf_canvas,
+            safe_float(mes_anio_cfg.get("center_x_pt"), 457.5),
+            safe_float(mes_anio_cfg.get("y_pt"),167.5),
+            mes_anio,
+            font_name=str(mes_anio_cfg.get("font_name") or "Helvetica"),
+            font_size=parse_float(mes_anio_cfg.get("font_size"), 5.6),
+            max_width=safe_float(mes_anio_cfg.get("max_width_pt"), 80),
+            trim_overflow=True,
+            shrink_to_fit=True
+        )    
     pdf_canvas.save()
     packet.seek(0)
     return packet
@@ -2406,6 +2491,7 @@ def generate_pdfs_from_csv_template(scriptConfig, arg1, preserve_generated_files
             f"[LOCAL_TEMPLATE] PDF generado {index}/{len(grouped_rows)}: {output_path} "
             f"({len(district_rows)} pagina(s) / registro(s) para CRDISTRITO={district_key})"
         )
+        
         try:
             sent, detail = send_local_template_email(output_path, email_recipient)
             if sent:
@@ -2420,7 +2506,6 @@ def generate_pdfs_from_csv_template(scriptConfig, arg1, preserve_generated_files
                 print(f"[LOCAL_TEMPLATE] Correo omitido para {output_path}: {detail}")
         except Exception as exc:
             print(f"[LOCAL_TEMPLATE] No se pudo enviar correo para {output_path}: {exc}")
-
     return generated_files
 
 
