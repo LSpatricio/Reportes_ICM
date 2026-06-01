@@ -2398,16 +2398,6 @@ def draw_finiquito_overlay(page_width, page_height, row, layout):
         "MERMAIEPS": 4.2,
     }
     inventory_row_y_pt = {
-<<<<<<< Updated upstream
-        "MERMAMCIACERO": 424.59,
-        "MERMAMCIAEXENTA": 414.97,
-        "MERMAMCIACONSIG": 405.59,
-        "MERMAMCIAGRAVAD": 396.17,
-        "MERMASUBTOTAL": 386.71,
-        "MERMAIVA": 377.29,
-        "MERMAIMPESTATAL": 367.90,
-        "MERMAIEPS": 358.48,
-=======
         "MERMAMCIACERO":    415,
         "MERMAMCIAEXENTA":  404,
         "MERMAMCIACONSIG":  392.37,
@@ -2416,7 +2406,6 @@ def draw_finiquito_overlay(page_width, page_height, row, layout):
         "MERMAIVA":         359,
         "MERMAIMPESTATAL":  347.68,
         "MERMAIEPS":        338,
->>>>>>> Stashed changes
     }
     inventory_field_suffix_lookup = {
         "ANTERIOR": "ANTERIOR",
@@ -2472,10 +2461,7 @@ def draw_finiquito_overlay(page_width, page_height, row, layout):
     for suffix in inventory_suffixes:
         total_field_name = inventory_total_field_lookup.get(suffix)
         total_value = get_numeric_field_or_rdl(layout, row, total_field_name) if total_field_name else 0.0
-<<<<<<< Updated upstream
-=======
         row_general_total_y = inventory_total_y-66.00
->>>>>>> Stashed changes
         draw_right_currency(
             pdf_canvas,
             inventory_column_right_x[suffix],
@@ -3179,11 +3165,11 @@ def generate_pdfs_from_csv_template(scriptConfig, arg1, preserve_generated_files
     # if district_recipients:
     #     send_local_template_email(output_path, district_recipients)
     # else:
-    #     send_local_template_email(output_path, ["hzermeno@exsoinf.com"])
+    #     send_local_template_email(output_path, ["dsuazo@exsoinf.com"])
 
     email_recipient = str(
-        get_config_value(config_section, "LOCAL_TEMPLATE_EMAIL_TO", "hzermeno@exsoinf.com")
-    ).strip() or "hzermeno@exsoinf.com"
+        get_config_value(config_section, "LOCAL_TEMPLATE_EMAIL_TO", "dsuazo@exsoinf.com")
+    ).strip() or "dsuazo@exsoinf.com"
     generated_files = []
 
     for index, (district_key, district_rows) in enumerate(grouped_rows, start=1):
@@ -3212,7 +3198,7 @@ def generate_pdfs_from_csv_template(scriptConfig, arg1, preserve_generated_files
                 print(f"[LOCAL_TEMPLATE] Correo enviado a {email_recipient}: {output_path}")
                 if not preserve_generated_files and os.path.exists(output_path):
                     try:
-                        #os.remove(output_path)
+                        os.remove(output_path)
                         print(f"[LOCAL_TEMPLATE] PDF eliminado tras envio: {output_path}")
                     except Exception as exc:
                         print(f"[LOCAL_TEMPLATE] No se pudo eliminar el PDF enviado {output_path}: {exc}")
