@@ -2552,7 +2552,7 @@ def draw_finiquito_overlay(page_width, page_height, row, layout):
             "RECUP": get_numeric_field_or_rdl(layout, row, "DEV_AGUINALDO_RECUP"),
             "SALDO": get_numeric_field_or_rdl(layout, row, "DEV_AGUINALDO_SALDO"),
         }),
-        ("RETENCION_IMPUESTOS", {            
+        ("RETENCION_IMPUESTOS", {
             "ANTERIOR": get_numeric_field_or_rdl(layout, row, "RETENIMPUESTOS_ANTERIOR"),
             "MENSUAL": get_numeric_field_or_rdl(layout, row, "RETENIMPUESTOS_MENSUAL"),
             "ACUM": get_numeric_field_or_rdl(layout, row, "RETENCIONIMP_ACUM"),
@@ -2562,7 +2562,7 @@ def draw_finiquito_overlay(page_width, page_height, row, layout):
         ("RETENCION_IMPUESTOS_NOMINA", {
             "ANTERIOR": get_numeric_field_or_rdl(layout, row, "RETENIMPNOMEMP_ANTERIOR"),
             "MENSUAL": get_numeric_field_or_rdl(layout, row, "RETENIMPNOMEMP_MENSUAL"),
-            "ACUM": get_numeric_field_or_rdl(layout, row, "RETENCIONIMPNOMEMP_ACUM"),
+            "ACUM": get_numeric_field_or_rdl(layout, row, "RETENCIONIMPNOMEMP_ACUM"),            
             "RECUP": get_numeric_field_or_rdl(layout, row, "RETENIMPNOMEMP_RECUP"),
             "SALDO": get_numeric_field_or_rdl(layout, row, "RETENIMPNOMEMP_SALDO"),
         }),
@@ -2737,9 +2737,10 @@ def draw_finiquito_overlay(page_width, page_height, row, layout):
 
 def build_output_filename(row):
     district_value = sanitize_filename(row.get("CRDISTRITO") or "SIN_DISTRITO", fallback="SIN_DISTRITO")
-    month_year_value = sanitize_filename(format_month_year_token(row), fallback="MESANIO")
-    base_name = f"{district_value}_{month_year_value}"
-    return base_name + ".pdf"
+    #month_year_value = sanitize_filename(format_month_year_token(row), fallback="MESANIO")
+    periodo= sanitize_filename(get_row_value(row, "mes"), fallback="MESANIO")
+    base_name = f"FINIQUITO DETALLADO_{district_value}_{periodo}.pdf"
+    return base_name
 
 
 def cleanup_generated_pdfs(output_dir):
