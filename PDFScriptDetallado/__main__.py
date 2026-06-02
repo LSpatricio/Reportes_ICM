@@ -3144,7 +3144,11 @@ def generate_pdfs_from_csv_template(scriptConfig, arg1, preserve_generated_files
                  district_lookup_key = str(row.get("col_0", "")).strip()
                  email_value = str(row.get("col_1", "")).strip()
                  if district_lookup_key and email_value:
-                     district_email_map.setdefault(district_lookup_key, []).append(email_value)
+                     district_email_map.setdefault(district_lookup_key, []).extend(
+                        email.strip()
+                        for email in email_value.split(";")
+                        if email.strip()
+                    )
     #
     # Uso sugerido al generar cada PDF (comentado, no activo):
     # district_lookup_key = f"DIS-{district_key}"
