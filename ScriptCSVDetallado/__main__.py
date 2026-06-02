@@ -446,18 +446,30 @@ def load_cat_calculation_into_duckdb(base_path):
 
 
 def export_main_output():
-    # Exporta la tabla final del proceso detallado al CSV de salida configurado.
+    # Exporta la tabla final del proceso al CSV de salida configurado.
     CONN = get_duckdb_connection(db_path)
     try:
         table_name = 'CSVDetalladoProceso'
+        #deduplicate_table_by_max_comisionid(CONN, table_name)
+        #output_file = resolve_export_csv_path()
+        #os.makedirs(os.path.dirname(output_file), exist_ok=True)
+        #export_table_to_csv(CONN, table_name, output_file)
         deduplicate_table_by_max_comisionid(CONN, table_name)
+ 
+        CONN.execute("""
+        CREATE OR REPLACE TABLE CSVDetalladoProceso AS
+        SELECT *
+        FROM CSVDetalladoProceso
+        ORDER BY NOMBRECOMISIONISTA
+        """)
+ 
         output_file = resolve_export_csv_path()
         os.makedirs(os.path.dirname(output_file), exist_ok=True)
+ 
         export_table_to_csv(CONN, table_name, output_file)
         print(f"CSV generado en: {output_file}")
     finally:
         CONN.close()
-
 
 def cleanup_intermediate_csvs():
     # Limpia los CSV temporales generados durante la ejecución.
@@ -612,7 +624,7 @@ if __name__ == "__main__":
                                     periodo.MES AS MES,
                                     periodo.MesEsp AS MesEsp,
                                     S."RFC",
-                                    S."NOMBRECOMISIONISTA",
+                                    INITCAP(S."NOMBRECOMISIONISTA") AS "NOMBRECOMISIONISTA",
                                     CAST(NULLIF(CAST(S."AGUINALDOEMPLEADOSPAGO" AS VARCHAR), '') AS DOUBLE PRECISION) AS AGUINALDOEMPLEADOSPAGO,
                                     S."CLASIFICACION",
                                     CAST(NULLIF(CAST(S."COMISIONEXTRAORDINARIA" AS VARCHAR), '') AS DOUBLE PRECISION) AS COMISIONEXTRAORDINARIA,
