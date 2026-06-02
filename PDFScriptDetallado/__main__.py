@@ -789,7 +789,7 @@ def send_local_template_email(pdf_path, recipient):
         "model": model,
     }
     payload = {
-        "to": [recipient],
+        "to": recipient,
         "cc": [],
         "subject": f"PDF Detallado - Finiquito generado - {pdf_name}",
         "body": (
