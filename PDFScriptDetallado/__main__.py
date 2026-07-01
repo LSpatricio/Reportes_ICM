@@ -2362,7 +2362,7 @@ def draw_finiquito_overlay(page_width, page_height, row, layout):
         ("comisionextraordinariaca", 508.8, get_numeric_field_or_rdl(layout, row, "comisionextraordinariaca"), False),
         ("incentivoextraordinario", 498.4, get_numeric_field_or_rdl(layout, row, "incentivoextraordinario"), False),
         ("comisionextraordinaria", 488, get_numeric_field_or_rdl(layout, row, "comisionextraordinaria"), False),
-        ("incentivoresultadoslider", 477.6, get_numeric_field_or_rdl(layout, row, "comisionextraordinaria"), False),
+        ("incentivoresultadoslider", 477.6, get_numeric_field_or_rdl(layout, row, "incentivoresultadoslider"), False),
         ("subtotalcomison", 467.2, get_numeric_field_or_rdl(layout, row, "subtotalcomison"), False),
         ("ivasubtotalcomision", 456.8, get_numeric_field_or_rdl(layout, row, "ivasubtotalcomision"), False),
         ("retenciondosterciosiva", 446.4, get_numeric_field_or_rdl(layout, row, "retenciondosterciosiva"), False),
