@@ -493,9 +493,22 @@ def export_main_output():
     CONN = get_duckdb_connection(db_path)
     try:
         table_name = 'CatCalculoProceso'
+        #deduplicate_table_by_max_comisionid(CONN, table_name)
+        #output_file = resolve_export_csv_path()
+        #os.makedirs(os.path.dirname(output_file), exist_ok=True)
+        #export_table_to_csv(CONN, table_name, output_file)
         deduplicate_table_by_max_comisionid(CONN, table_name)
+ 
+        CONN.execute("""
+        CREATE OR REPLACE TABLE CatCalculoProceso AS
+        SELECT *
+        FROM CatCalculoProceso
+        ORDER BY NOMBRECOMISIONISTA
+        """)
+ 
         output_file = resolve_export_csv_path()
         os.makedirs(os.path.dirname(output_file), exist_ok=True)
+ 
         export_table_to_csv(CONN, table_name, output_file)
         print(f"CSV generado en: {output_file}")
     finally:
