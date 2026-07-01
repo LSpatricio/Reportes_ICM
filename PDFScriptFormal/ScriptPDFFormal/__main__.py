@@ -148,7 +148,6 @@ if not os.path.exists(os.path.join(scriptsRoot, ".env")):
 else:
     dotenv_path = os.path.join(scriptsRoot, ".env")
 load_dotenv(dotenv_path)
-load_dotenv()
 
 
 class batchPDF(Exception):
