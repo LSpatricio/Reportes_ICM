@@ -1929,7 +1929,7 @@ def draw_finiquito_overlay(page_width, page_height, row, layout):
     discounts_font_size = parse_float(discounts_layout.get("font_size"), 5.8) if discounts_layout else 5.8
     discounts_total_font_size = parse_float(discounts_layout.get("total_font_size"), 5.8) if discounts_layout else 5.8
     discounts_max_width = safe_float(discounts_layout.get("max_width_pt"), 54) if discounts_layout else 54
-    fallback_discount_y = {0: 473.61, 1: 465.13, 2: 456.40, 3: 447.66}
+    fallback_discount_y = {0: 348.50, 1: 339.27, 2: 330.03, 3: 320.8}
     #discounts_totals = {suffix: 0.0 for suffix in ("ANTERIOR", "MENSUAL", "ACUM", "RECUP", "SALDO")}
     for row_index, (row_key, values_by_suffix) in enumerate(discounts_rows):
         row_cfg = discounts_rows_layout.get(row_key, {}) if isinstance(discounts_rows_layout, dict) else {}
@@ -1961,8 +1961,8 @@ def draw_finiquito_overlay(page_width, page_height, row, layout):
     totals_rows_layout = totals_layout.get("rows") if totals_layout else {}
     total_a_pagar_cfg = totals_rows_layout.get("TOTAL_A_PAGAR", {}) if isinstance(totals_rows_layout, dict) else {}
     flujo_cfg = totals_rows_layout.get("FLUJO_MENSUAL", {}) if isinstance(totals_rows_layout, dict) else {}
-    total_a_pagar_y = safe_float(total_a_pagar_cfg.get("y_pt"), 428.59) if total_a_pagar_cfg else 428.59
-    flujo_mensual_y = safe_float(flujo_cfg.get("y_pt"), 417.85) if flujo_cfg else 417.85
+    total_a_pagar_y = safe_float(total_a_pagar_cfg.get("y_pt"), 298.79) if total_a_pagar_cfg else 298.79
+    flujo_mensual_y = safe_float(flujo_cfg.get("y_pt"), 283.79) if flujo_cfg else 283.79
     draw_right_currency(
         pdf_canvas,
         totals_right_x,
