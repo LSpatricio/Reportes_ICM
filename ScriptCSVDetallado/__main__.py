@@ -570,13 +570,13 @@ if __name__ == "__main__":
                                     WHERE C."FECHAINI" >= periodo.FECHAINI
                                       AND C."FECHAFIN" <= periodo.FECHAFIN
                                       AND C."COMPONENTEID" IN (
-                                          'DULCES PAGO MENSUAL',
-                                          'FAST FOOD ALIMENTOS PAGO MENSUAL',
-                                          'FAST FOOD BEBIDAS PAGO MENSUAL',
-                                          'CERVEZA PAGO MENSUAL',
-                                          'BOTANAS PAGO MENSUAL',
-                                          'REFRESCOS PAGO MENSUAL',
-                                          'CIGARROS PAGO MENSUAL'
+                                          'DULCES PAGO',
+                                          'FAST FOOD ALIMENTOS PAGO',
+                                          'FAST FOOD BEBIDAS PAGO',
+                                          'CERVEZA PAGO',
+                                          'BOTANAS PAGO',
+                                          'REFRESCOS PAGO',
+                                          'CIGARROS PAGO'
                                       )
                                     GROUP BY C."COMISIONID"
                                 ),
