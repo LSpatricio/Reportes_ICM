@@ -1198,7 +1198,6 @@ INTEGRATION_ROW_OFFSETS_PT = {
     "comisionfija": 16.0,
     "comisionporestructura": 16.0,
     "comisionvariable": 16.0,
-    "incentivovtacat": 16.0,
     "subtotalcomison": 16.0,
     "ivasubtotalcomision": 16.0,
     "retenciondosterciosiva": 16.0,
@@ -1213,7 +1212,6 @@ INTEGRATION_ROW_OFFSET_ALIASES = {
     "COMISIONPORESTRUCTURA": "comisionporestructura",
     "COMISIONES": "comisionvariable",
     "COMISIONVARIABLE": "comisionvariable",
-    "INCENTIVOVTACAT": "incentivovtacat",
     "SUBTOTALCOMISON": "subtotalcomison",
     "IVACOMISION": "ivasubtotalcomision",
     "IVASUBTOTALCOMISION": "ivasubtotalcomision",
@@ -1777,14 +1775,14 @@ def draw_finiquito_overlay(page_width, page_height, row, layout):
         "comisionfija":             663.56,
         "comisionporestructura":    653.06,
         "comisionvariable":         640.50,
-        "incentivovtacat":          629.00,
-        "subtotalcomison":          617.00,
-        "ivasubtotalcomision":      605.00,
-        "retenciondosterciosiva":   593.00,
-        "retencionisr":             582.00,
-        "impcedular":               571.00,
-        "totalcomision":            558.00,
+        "subtotalcomison":          627.00,
+        "ivasubtotalcomision":      614.00,
+        "retenciondosterciosiva":   602.00,
+        "retencionisr":             590.00,
+        "impcedular":               579.00,
+        "totalcomision":            567.00,
     }
+
     integration_layout_rows = integration_layout.get("rows") if integration_layout else {}
     for source_key, fallback_y_pt in integration_row_y_pt.items():
         if not row_has_field(row, source_key):
